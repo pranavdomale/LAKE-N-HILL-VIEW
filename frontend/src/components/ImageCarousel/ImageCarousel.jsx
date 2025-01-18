@@ -18,21 +18,21 @@ const ImageCarousel = () => {
     <Slider {...settings}>
       <div>
         <img
-          src="src/assets/Screenshot2025-01-13-200049.png"
+          src=""
           alt="Slide 1"
           className="w-full h-auto"
         />
       </div>
       <div>
         <img
-          src="src/assets/Screenshot2025-01-13-201410.png"
+          src=""
           alt="Slide 2"
           className="w-full h-auto"
         />
       </div>
       <div>
         <img
-          src="src/assets/Screenshot2025-01-17-091231.png"
+          src=""
           alt="Slide 3"
           className="w-full h-auto"
         />

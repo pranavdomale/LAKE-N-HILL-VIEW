@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar/Navbar";
 import ImageCarousel from "../components/ImageCarousel/ImageCarousel";
+import Footer from "../components/Footer/Footer";
 
 const Home = () => (
   <>
@@ -31,6 +32,31 @@ const Home = () => (
           <button className="bg-transparent text-white tracking-wider border-[1px] border-white hover:bg-gray-200 hover:text-black py-3 px-8 rounded-full shadow-lg font-normal">
             BOOK NOW
           </button>
+        </div>
+      </div>
+    </section>
+    {/* Features Section */}
+    <section className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 font-poppins">
+          Discover Our Amenities
+        </h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { title: "Luxurious Rooms", icon: "🛏️", description: "Indulge in our spacious, elegantly designed rooms with breathtaking views." },
+            { title: "Gourmet Dining", icon: "🍽️", description: "Savor exquisite cuisine prepared by our world-class chefs." },
+            { 
+              title: "Motor Bike Adventures", 
+              icon: "🏍️", 
+              description: "Explore scenic routes with our premium motor bike rental service and guided tours." 
+            },
+          ].map((feature, index) => (
+            <div key={index} className="bg-white rounded-lg shadow-md p-6 transition-transform hover:scale-105">
+              <div className="text-4xl mb-4">{feature.icon}</div>
+              <h3 className="text-xl font-semibold mb-2 font-poppins">{feature.title}</h3>
+              <p className="text-gray-600 font-montserrat">{feature.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -86,13 +112,30 @@ const Home = () => (
     {/* 3rd Section */}
     <section className="py-16 px-4 bg-white">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-4xl font-bold mb-8 font-poppins">A gorgeous place to enjoy your life.</h2>
-        <p className="text-gray-600 mb-12 font-montserrat">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. In dolor, iusto doloremque quo odio repudiandae sunt eveniet? Enim facilis laborum voluptate id porro, culpa maiores quis, blanditiis laboriosam alias. Sed.
-        </p>
+      <h2 className="text-3xl md:text-4xl font-bold mb-4 font-poppins">
+            A Glimpse of Paradise
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto font-montserrat">
+            Experience the perfect blend of luxury and nature at Lake N Hill View. Our resort offers breathtaking views, world-class amenities, and unforgettable moments for you and your loved ones.
+          </p>
         <ImageCarousel />
       </div>
     </section>
+     {/* Call to Action Section */}
+     <section className="py-20 bg-gradient-to-r from-fuchsia-700 to-pink-600 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 font-poppins">
+          Ready for an Unforgettable Getaway?
+        </h2>
+        <p className="text-xl mb-8 font-montserrat">
+          Book your stay now and create memories that will last a lifetime.
+        </p>
+        <button className="bg-white text-fuchsia-700 py-3 px-8 rounded-full shadow-lg font-bold transition-transform hover:scale-105 font-ptsans">
+          RESERVE YOUR STAY
+        </button>
+      </div>
+    </section>
+    <Footer />
    
   </>
 );
