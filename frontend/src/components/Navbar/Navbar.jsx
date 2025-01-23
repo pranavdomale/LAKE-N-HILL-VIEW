@@ -1,146 +1,150 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { IoIosMenu } from "react-icons/io";
-import { IoMdClose } from "react-icons/io";
-import { CiLogin } from "react-icons/ci";
+import React, { useState } from "react"
+import { Link } from "react-router-dom"
+import { IoIosMenu } from "react-icons/io"
+import { IoMdClose } from "react-icons/io"
+import { CiLogin } from "react-icons/ci"
 import { CgProfile } from "react-icons/cg"
 
 const Navbar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  // const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const isLoggedIn = false;
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const isLoggedIn = false
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+    setIsSidebarOpen(!isSidebarOpen)
+  }
 
   return (
     <div>
       {/* Navbar */}
-      <nav className={`flex items-center justify-between w-screen h-20 bg-transparent ${ isSidebarOpen ? "" : "backdrop-blur-sm border-b-2 border-gray-700"} fixed top-0 left-0 z-50 `}>
+      <nav
+        className={`
+        flex items-center justify-between w-full h-20 
+        fixed top-0 left-0 z-50 px-4 md:px-12
+        transition-all duration-300 ease-in-out
+        ${isSidebarOpen ? "bg-transparent" : "bg-black/30 backdrop-blur-md"}
+      `}
+      >
         {/* Brand Name */}
-        {isSidebarOpen ? (
-          <div></div>
-        ) : (
-          <div className="pl-12">
-            <p className="font-bold text-2xl md:text-3xl text-white">
-              Lake N Hill <span className="text-pink-600">View</span>
-            </p>
-          </div>
-        )}
+        <div
+          className={`
+          transition-opacity duration-300 ease-in-out
+          ${isSidebarOpen ? "opacity-0" : "opacity-100"}
+        `}
+        >
+          <p className="font-bold text-2xl md:text-3xl text-white">
+            Lake N Hill <span className="text-pink-600">View</span>
+          </p>
+        </div>
 
-        {/* Hamburger Menu */}
-        <div className="flex">
-          { isSidebarOpen ? (
-            <div></div>
-          ) : (
-          <div className="flex items-center justify-center">
-            {isLoggedIn ? (
-              <div className="flex text-white text-4xl">
-                <CgProfile />
-              </div>
-            ) : (
-              <Link to="/login" className="flex items-center justify-center gap-1 tracking-wider border-[1px] border-white bg-gray-200 hover:bg-transparent hover:text-white py-2 px-6 rounded-full shadow-lg font-medium">
-              <p>LOGIN</p> <CiLogin className="text-xl"/>
-            </Link>
-            )}
-          </div>
+        {/* Login/Profile and Menu */}
+        <div className="flex items-center space-x-4">
+          {!isSidebarOpen && (
+            <div className="transition-opacity duration-300 ease-in-out">
+              {isLoggedIn ? (
+                <div className="text-white text-4xl hover:text-pink-600 transition-colors">
+                  <CgProfile />
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  className="
+                  flex items-center justify-center gap-2
+                  text-white hover:text-pink-600
+                  border border-white hover:border-pink-600
+                  py-2 px-4 rounded-full
+                  transition-all duration-300 ease-in-out
+                  hover:bg-white/10 backdrop-blur-sm
+                "
+                >
+                  <span>LOGIN</span> <CiLogin className="text-xl" />
+                </Link>
+              )}
+            </div>
           )}
-          <div className="px-4 md:pr-12 cursor-pointer" onClick={toggleSidebar}>
-            <IoIosMenu className="text-white text-5xl" />
-          </div>
+          <button onClick={toggleSidebar} className="text-white hover:text-pink-600 transition-colors duration-300">
+            {isSidebarOpen ? <IoMdClose className="text-4xl" /> : <IoIosMenu className="text-4xl" />}
+          </button>
         </div>
       </nav>
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 h-full w-screen bg-white shadow-lg transform ${
-          isSidebarOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-200 ease-in-out z-40`}
+        className={`
+        fixed top-0 right-0 h-full w-full md:w-96
+        bg-gradient-to-br from-gray-900 to-gray-800
+        transform transition-transform duration-300 ease-in-out
+        ${isSidebarOpen ? "translate-x-0" : "translate-x-full"}
+        z-40 overflow-y-auto
+      `}
       >
-        {/* Close Button */}
-        <div className="p-6 flex justify-end">
-          <button onClick={toggleSidebar}>
-            <IoMdClose className="text-gray-800 text-4xl" />
-          </button>
-        </div>
-
         {/* Sidebar Content */}
-        <div className="p-6">
+        <div className="p-8 text-white">
           {/* Navigation Links */}
-          <nav className="flex flex-col space-y-4">
-            <Link
-              onClick={toggleSidebar}
-              className="text-lg font-bold hover:text-pink-600 transition"
-            >
-              Home
-            </Link>
-            <Link
-              to="/hotel"
-              className="text-lg font-bold hover:text-pink-600 transition"
-            >
-              Hotel
-            </Link>
-            <Link
-              to="/about"
-              className="text-lg font-bold hover:text-pink-600 transition"
-            >
-              About
-            </Link>
-            <Link
-              to="/blog"
-              className="text-lg font-bold hover:text-pink-600 transition"
-            >
-              Blog
-            </Link>
-            <Link
-              to="/contact"
-              className="text-lg font-bold hover:text-pink-600 transition"
-            >
-              Contact
-            </Link>
+          <nav className="flex flex-col space-y-6 mb-12">
+            {[
+              { name: "Home", path: "/" },
+              { name: "Hotel", path: "/hotel" },
+              { name: "About Us", path: "/about-us" },
+              { name: "Contact", path: "/contact" },
+              { name: "My Booking", path: "/my-booking" },
+             
+            ].map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={toggleSidebar}
+                className="
+                  text-2xl font-bold hover:text-pink-600 
+                  transition-all duration-300 ease-in-out
+                  transform hover:translate-x-2
+                "
+              >
+                {item.name}
+              </Link>
+            ))}
           </nav>
 
           {/* Contact Info */}
-          <div className="mt-10 space-y-2">
-            <h3 className="text-sm font-bold text-gray-500">CONTACT INFO</h3>
-            <p className="text-sm text-gray-600">
+          <div className="mb-12 space-y-4">
+            <h3 className="text-lg font-bold text-pink-600">CONTACT INFO</h3>
+            <p className="text-sm text-gray-300">
               60, Rope Way, Near Fatehsagar Lake, Beside Jain Temple
-            </p>
-            <p className="text-sm text-gray-600">
-              {" "}
+              <br />
               Dewali, Panchwati, Udaipur, 313001 Rajasthan India
             </p>
-            <p className="text-sm text-gray-600">lakenhillview@gmail.com</p>
-            <p className="text-sm text-gray-600">(+91) 78787 99889</p>
+            <p className="text-sm text-gray-300">lakenhillview@gmail.com</p>
+            <p className="text-sm text-gray-300">(+91) 78787 99889</p>
           </div>
 
           {/* Social Links */}
-          <div className="mt-10 space-y-2">
-            <h3 className="text-sm font-bold text-gray-500">CONNECT WITH US</h3>
-            <a
-              href="https://twitter.com"
-              className="text-sm text-gray-600 hover:underline"
-            >
-              Twitter
-            </a>
-            <a
-              href="https://www.facebook.com/share/1FS2c8wtut/"
-              className="text-sm text-gray-600 hover:underline"
-            >
-              Facebook
-            </a>
-            <a
-              href="https://www.instagram.com/lakenhillview?igsh=Ymlpbm9pd2U1bzRn"
-              className="text-sm text-gray-600 hover:underline"
-            >
-              Instagram
-            </a>
+          <div className="space-y-4">
+            <h3 className="text-lg font-bold text-pink-600">CONNECT WITH US</h3>
+            <div className="flex space-x-4">
+              {[
+                { name: "Twitter", url: "https://twitter.com" },
+                { name: "Facebook", url: "https://www.facebook.com/share/1FS2c8wtut/" },
+                { name: "Instagram", url: "https://www.instagram.com/lakenhillview?igsh=Ymlpbm9pd2U1bzRn" },
+              ].map((social) => (
+                <a
+                  key={social.name}
+                  href={social.url}
+                  className="
+                    text-sm text-gray-300 hover:text-white
+                    transition-colors duration-300 ease-in-out
+                  "
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {social.name}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
+

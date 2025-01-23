@@ -82,7 +82,7 @@ const Home = () => (
                 Experience luxury in our elegantly designed rooms with modern amenities and stunning views.
               </p>
               <button className="w-full bg-gradient-to-r from-fuchsia-700 to-pink-600 text-white py-2 px-4 rounded-full hover:from-fuchsia-800 hover:to-pink-700 transition-colors duration-300 font-ptsans">
-                EXPLORE A ROOMS
+                BOOK ROOMS
               </button>
             </div>
           </div>

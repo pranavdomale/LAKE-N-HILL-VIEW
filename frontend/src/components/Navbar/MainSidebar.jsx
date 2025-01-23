@@ -46,10 +46,10 @@ const Sidebar = () => {
               About
             </a>
             <a
-              href="#blog"
+              href="#Location"
               className="text-lg font-bold hover:text-red-500 transition"
               >
-              Blog
+              Location
             </a>
             <a
               href="#contact"
