@@ -1,7 +1,8 @@
 import React from "react";
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "../components/Navbar";
 import ImageCarousel from "../components/ImageCarousel/ImageCarousel";
 import Footer from "../components/Footer/Footer";
+
 
 const Home = () => (
   <>
@@ -29,7 +30,8 @@ const Home = () => (
           <button className="bg-gradient-to-r from-fuchsia-700 to-pink-600 tracking-wider hover:bg-gradient-to-r hover:from-fuchsia-800 hover:to-pink-700 text-white py-3 px-8 rounded-full shadow-lg font-normal">
             EXPLORE THE BEAUTY
           </button>
-          <button className="bg-transparent text-white tracking-wider border-[1px] border-white hover:bg-gray-200 hover:text-black py-3 px-8 rounded-full shadow-lg font-normal">
+          <button
+          className="bg-transparent text-white tracking-wider border-[1px] border-white hover:bg-gray-200 hover:text-black py-3 px-8 rounded-full shadow-lg font-normal">
             BOOK NOW
           </button>
         </div>
@@ -91,7 +93,7 @@ const Home = () => (
           <div className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
             <div className="h-64 overflow-hidden">
               <img
-                src="frontend\src\assets\2023-05-19(3)-min(1).jpg"
+                src=""
                 alt="Lake Side View"
                 className="w-full h-full object-cover"
               />

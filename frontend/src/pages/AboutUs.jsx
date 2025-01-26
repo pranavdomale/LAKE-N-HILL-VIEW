@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { ChevronRight } from 'lucide-react';
-import Navbar from '../components/Navbar/Navbar';
+import Navbar from '../components/Navbar';
 import Footer from '../components/Footer/Footer';
 
 const AboutUs = () => {
@@ -88,25 +88,7 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Awards and Recognition Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center font-poppins">Awards and Recognition</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { year: "2023", award: "Best Luxury Mountain Resort" },
-              { year: "2022", award: "5-Star Rating - Forbes Travel Guide" },
-              { year: "2021", award: "Top 10 Resorts in North America" },
-              { year: "2020", award: "Best Eco-Friendly Luxury Resort" },
-            ].map((item, index) => (
-              <div key={index} className="text-center">
-                <div className="text-2xl font-bold text-fuchsia-700 mb-2 font-poppins">{item.year}</div>
-                <div className="font-montserrat">{item.award}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+     
       <Footer />
     </div>
   );

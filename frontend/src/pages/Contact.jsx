@@ -2,7 +2,7 @@ import React from "react"
 import { Mail, MapPin, Phone } from "lucide-react"
 import { Card } from "./Card"
 import Footer from "../components/Footer/Footer"
-import Navbar from "../components/Navbar/Navbar"
+import Navbar from "../components/Navbar"
 export default function Contact() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">

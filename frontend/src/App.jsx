@@ -6,7 +6,10 @@ import Register from './components/Auth/Register'
 import ForgetPassword from './components/Auth/ForgetPassword'
 import AboutUs from './pages/AboutUs'
 import Contact from './pages/Contact'
-import { MailIcon } from 'lucide-react' // Changed from Contact to MailIcon
+import RoomCards from './pages/RoomCards'
+import Bookpage from './pages/BookPage'
+import Navbar from './components/Navbar'
+import { Book, MailIcon } from 'lucide-react' // Changed from Contact to MailIcon
 
 const App = () => {
   return (
@@ -18,6 +21,8 @@ const App = () => {
         <Route path='/forget-password' element={<ForgetPassword />} />
         <Route path='/about-us' element={<AboutUs/>} />
         <Route path='/contact' element={<Contact/>} />
+        <Route path='/roomcards' element={<RoomCards/>} />
+        <Route path='/bookpage' element={<Bookpage/>} />
       </Routes>
     </Router>
   )
