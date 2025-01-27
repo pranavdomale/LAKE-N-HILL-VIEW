@@ -1,25 +1,24 @@
-const signup = require('../backend/src/models/user.model');
+const signup = require('../models/usermodels')
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
-app.post('/signup', async (req, res) => {
-    const { username, password } = req.body;
+async function createUser(req,res) {
+    const { username, password, email } = req.body;
 
     if (!username || !password) {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ username, password: hashedPassword });
-        await newUser.save();
-        res.status(201).json({ message: 'User registered successfully' });
+        const user= await signup.create({ username:username, password: password,email:email }).catch((err)=>{
+            console.log("error in user model",err)
+        })
+        res.status(201).json({ message: 'User registered successfully',
+            data:user
+         });
     } catch (err) {
         if (err.code === 11000) {
             res.status(400).json({ message: 'Username already exists' });
@@ -27,4 +26,6 @@ app.post('/signup', async (req, res) => {
             res.status(500).json({ message: 'Server error' });
         }
     }
-});
+}
+
+module.exports={createUser}
