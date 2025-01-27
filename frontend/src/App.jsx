@@ -10,6 +10,7 @@ import RoomCards from './pages/RoomCards'
 import Bookpage from './pages/BookPage'
 import Navbar from './components/Navbar'
 import { Book, MailIcon } from 'lucide-react' // Changed from Contact to MailIcon
+import AdminDashboard from './pages/admindashboard'
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/contact' element={<Contact/>} />
         <Route path='/roomcards' element={<RoomCards/>} />
         <Route path='/bookpage' element={<Bookpage/>} />
+        <Route path='/admin' element={<AdminDashboard/>} />
       </Routes>
     </Router>
   )

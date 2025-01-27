@@ -18,7 +18,7 @@ const ImageCarousel = () => {
     <Slider {...settings}>
       <div>
         <img
-          src=""
+          src="frontend\src\assets\room-no-1.png"
           alt="Slide 1"
           className="w-full h-auto"
         />

@@ -21,11 +21,11 @@ const Register = () => {
         <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
         <form>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">User Name</label>
             <div className="relative">
               <input
                 type="text"
-                placeholder="Full Name"
+                placeholder="User Name"
                 className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
               <span className="absolute inset-y-0 right-4 flex items-center">

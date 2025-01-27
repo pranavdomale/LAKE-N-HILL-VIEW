@@ -83,7 +83,7 @@ const Navbar = () => {
           <nav className="flex flex-col space-y-6 mb-12">
             {[
               { name: "Home", path: "/" },
-              { name: "Hotel", path: "/hotel" },
+              { name: "Hotel Rooms", path: "/hotel-rooms" },
               { name: "About Us", path: "/about-us" },
               { name: "Contact", path: "/contact" },
               { name: "My Booking", path: "/my-booking" },
