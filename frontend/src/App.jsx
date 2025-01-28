@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import Home from './pages/Home'
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom'
 import Login from './components/Auth/Login'
