@@ -1,25 +1,44 @@
-Here are the core APIs for the hotel website:
+# Hotel Management Backend
 
-Authentication APIs
-POST /api/auth/register: Create a new user.
-POST /api/auth/login: Authenticate a user and return a token.
+## Description
+This project is a backend for a hotel management system that allows users to book rooms, rent bikes, and reserve party halls. It includes user authentication and a RESTful API.
 
-Room Management APIs
-GET /api/rooms: Retrieve a list of available rooms.
-POST /api/rooms: Add a new room (admin only).
-PUT /api/rooms/:id: Update room details (admin only).
-DELETE /api/rooms/:id: Delete a room (admin only).
+## Technologies Used
+- Node.js
+- Express
+- MongoDB
+- Mongoose
+- JWT for authentication
+- bcrypt for password hashing
 
-Booking APIs
-POST /api/bookings: Create a new booking.
-GET /api/bookings/:id: Get booking details.
-GET /api/bookings: List all bookings for a user.
-DELETE /api/bookings/:id: Cancel a booking.
+## Setup
+1. Clone the repository.
+2. Run `npm install` to install dependencies.
+3. Create a `.env` file in the root directory and add your MongoDB connection string and JWT secret.
+4. Run `node config/server.js` to start the server.
 
-Payment APIs
-POST /api/payments: Process a payment.
-GET /api/payments/:id: Retrieve payment details.
+## API Endpoints
+- **Authentication**
+  - `POST /api/auth/register` - Register a new user
+  - `POST /api/auth/login` - Login a user
 
-Review APIs
-POST /api/reviews: Submit a review for a room.
-GET /api/reviews/:roomId: Get reviews for a specific room.
+- **Rooms**
+  - `POST /api/rooms` - Create a new room
+  - `GET /api/rooms` - Get all rooms
+
+- **Bikes**
+  - `POST /api/bikes` - Create a new bike
+  - `GET /api/bikes` - Get all bikes
+
+- **Halls**
+  - `POST /api/halls` - Create a new hall
+  - `GET /api/halls` - Get all halls
+
+- **Bookings**
+  - `POST /api/bookings` - Create a new booking
+  - `GET /api/bookings` - Get all bookings
+
+## Testing
+Run tests using Jest:
+```bash
+npm test
