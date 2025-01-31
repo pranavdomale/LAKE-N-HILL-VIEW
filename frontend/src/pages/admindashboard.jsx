@@ -3,17 +3,14 @@ import {
   Users,
   Bike,
   Home,
-  CreditCard,
-  Calendar,
-  Settings,
   LogOut,
   Menu,
   X,
-  ChevronDown,
   Search,
   Plus,
 } from "lucide-react"
 
+// CreditCard, Calendar, Settings, ChevronDown
 // Mock data for demonstration
 const roomsData = [
   { id: 1, name: "Royal Suite", type: "Suite", capacity: 2, price: 450, status: "Available" },

@@ -3,6 +3,7 @@ import { BanknotesIcon, QrCodeIcon } from "@heroicons/react/24/solid"
 import { QRCodeSVG } from "qrcode.react"
 
 const PaymentOption = ({ icon, title, description, selected, onClick }) => (
+
   <div
     className={`border rounded-lg p-4 cursor-pointer transition-all ${
       selected ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-blue-300"

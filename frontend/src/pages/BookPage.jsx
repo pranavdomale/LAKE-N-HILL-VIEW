@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Star, Users, Calendar, Coffee, Wifi, Tv, Maximize, BedDouble, ShowerHead, Wind, Utensils } from "lucide-react"
+import { Star, Users, Calendar, Maximize, BedDouble, ShowerHead, Wind, Utensils } from "lucide-react"
 
 const room = {
   id: 1,
@@ -14,8 +14,6 @@ const room = {
   view: "Ocean View",
   amenities: [
     "Private Balcony",
-    "Jacuzzi Tub",
-    "Mini Bar",
     "Room Service",
     "Flat-screen TV",
     "Free WiFi",
@@ -204,4 +202,3 @@ const BookPage = () => {
 }
 
 export default BookPage
-

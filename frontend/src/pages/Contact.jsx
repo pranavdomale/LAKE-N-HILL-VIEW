@@ -76,9 +76,7 @@ export default function Contact() {
         <Card className="max-w-2xl mx-auto p-6 hover:shadow-lg transition-shadow">
           <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Operating Hours</h2>
           <div className="space-y-2 text-center">
-            <p className="text-gray-600">Monday - Friday: 8:00 AM - 6:00 PM</p>
-            <p className="text-gray-600">Saturday: 9:00 AM - 4:00 PM</p>
-            <p className="text-gray-600">Sunday: Closed</p>
+            <p className="text-gray-600">Monday - Sunday: Opened 24 Hours</p>
           </div>
         </Card>
       </section>

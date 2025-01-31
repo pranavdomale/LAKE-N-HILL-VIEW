@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import { ChevronRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer/Footer';
+import backgroundImage from '../assets/aboutus-top.jpg';
 
 const AboutUs = () => {
   return (
@@ -10,9 +11,10 @@ const AboutUs = () => {
    
       
       {/* Hero Section */}
-      <section className="relative bg-cover bg-center h-[60vh]" style={{
-        backgroundImage: "url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"
-      }}>
+      <section
+        className="relative bg-cover bg-center h-[60vh]"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      >
         <Navbar />
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-white">
@@ -65,7 +67,7 @@ const AboutUs = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="relative h-[400px] rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1780&q=80" 
+                src={require("../assets/aboutus-bottom.jpg")}
                 alt="Luxury Suite" 
                 className="w-full h-full object-cover"
               />
@@ -88,11 +90,9 @@ const AboutUs = () => {
         </div>
       </section>
 
-     
       <Footer />
     </div>
   );
 };
 
 export default AboutUs;
-
