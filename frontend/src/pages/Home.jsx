@@ -2,9 +2,25 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import ImageCarousel from "../components/ImageCarousel/ImageCarousel";
 import Footer from "../components/Footer/Footer";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../components/Auth/AuthContext";
+import luxuryRoom from "../assets/Luxury Room_page-0001.jpg";
+import lakesideView from "../assets/Udaipur_Fateh_Sagar_Main.jpg";
 
+const Home = () => {
+  const navigate = useNavigate();
+  const user = useAuth();
 
-const Home = () => (
+  const handleBookingClick = () => {
+    if (user) {
+      navigate("/service");
+    } else {
+      alert("Please log in to continue.");
+      navigate("/login");
+    }
+  };
+
+  return(
   <>
     {/* 1st Section */}
     <section
@@ -27,11 +43,11 @@ const Home = () => (
           Discover our world-class hotel & restaurant resort.
         </p>
         <div className="mt-8 md:flex space-x-4 font-ptsans">
-          <button className="bg-gradient-to-r from-fuchsia-700 to-pink-600 tracking-wider hover:bg-gradient-to-r hover:from-fuchsia-800 hover:to-pink-700 text-white py-3 px-8 rounded-full shadow-lg font-normal">
-            EXPLORE THE BEAUTY
+          <button className="bg-gradient-to-r from-fuchsia-700 to-pink-600 tracking-wider hover:bg-gradient-to-r hover:from-fuchsia-800 hover:to-pink-700 text-white py-3 px-8 rounded-full shadow-lg font-normal" onClick={() => navigate("/about-us")}>
+            EXPLORE ABOUT US
           </button>
           <button
-          className="bg-transparent text-white tracking-wider border-[1px] border-white hover:bg-gray-200 hover:text-black py-3 px-8 rounded-full shadow-lg font-normal">
+          className="bg-transparent text-white tracking-wider border-[1px] border-white hover:bg-gray-200 hover:text-black py-3 px-8 rounded-full shadow-lg font-normal" onClick={handleBookingClick}>
             BOOK NOW
           </button>
         </div>
@@ -73,7 +89,7 @@ const Home = () => (
           <div className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
             <div className="h-64 overflow-hidden">
               <img
-                src=""
+                src={luxuryRoom}
                 alt="Luxury Hotel Room"
                 className="w-full h-full object-cover"
               />
@@ -83,8 +99,8 @@ const Home = () => (
               <p className="text-gray-600 mb-4 font-montserrat">
                 Experience luxury in our elegantly designed rooms with modern amenities and stunning views.
               </p>
-              <button className="w-full bg-gradient-to-r from-fuchsia-700 to-pink-600 text-white py-2 px-4 rounded-full hover:from-fuchsia-800 hover:to-pink-700 transition-colors duration-300 font-ptsans">
-                BOOK ROOMS
+              <button className="w-full bg-gradient-to-r from-fuchsia-700 to-pink-600 text-white py-2 px-4 rounded-full hover:from-fuchsia-800 hover:to-pink-700 transition-colors duration-300 font-ptsans" onClick={() => navigate("/service")}>
+                VIEW ROOMS
               </button>
             </div>
           </div>
@@ -92,8 +108,8 @@ const Home = () => (
           {/* Lake Side Views Card */}
           <div className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
             <div className="h-64 overflow-hidden">
-              <img
-                src=""
+              <img 
+                src={lakesideView}
                 alt="Lake Side View"
                 className="w-full h-full object-cover"
               />
@@ -103,7 +119,7 @@ const Home = () => (
               <p className="text-gray-600 mb-4 font-montserrat">
                 Immerse yourself in breathtaking lake views and serene natural surroundings.
               </p>
-              <button className="w-full bg-gradient-to-r from-fuchsia-700 to-pink-600 text-white py-2 px-4 rounded-full hover:from-fuchsia-800 hover:to-pink-700 transition-colors duration-300 font-ptsans">
+              <button className="w-full bg-gradient-to-r from-fuchsia-700 to-pink-600 text-white py-2 px-4 rounded-full hover:from-fuchsia-800 hover:to-pink-700 transition-colors duration-300 font-ptsans" onClick={() => window.location.href = "https://www.incredibleindia.gov.in/en/rajasthan/udaipur/fateh-sagar-lake"}>
                 EXPLORE VIEWS
               </button>
             </div>
@@ -120,7 +136,7 @@ const Home = () => (
           <p className="text-xl text-gray-600 max-w-3xl mx-auto font-montserrat">
             Experience the perfect blend of luxury and nature at Lake N Hill View. Our resort offers breathtaking views, world-class amenities, and unforgettable moments for you and your loved ones.
           </p>
-        <ImageCarousel />
+        <ImageCarousel/>
       </div>
     </section>
      {/* Call to Action Section */}
@@ -132,7 +148,7 @@ const Home = () => (
         <p className="text-xl mb-8 font-montserrat">
           Book your stay now and create memories that will last a lifetime.
         </p>
-        <button className="bg-white text-fuchsia-700 py-3 px-8 rounded-full shadow-lg font-bold transition-transform hover:scale-105 font-ptsans">
+        <button className="bg-white text-fuchsia-700 py-3 px-8 rounded-full shadow-lg font-bold transition-transform hover:scale-105 font-ptsans" onClick={handleBookingClick}>
           RESERVE YOUR STAY
         </button>
       </div>
@@ -141,5 +157,6 @@ const Home = () => (
    
   </>
 );
+};
 
 export default Home;

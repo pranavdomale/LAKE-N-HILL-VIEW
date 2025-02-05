@@ -15,12 +15,18 @@ const BikeSchema = new mongoose.Schema({
   price: { 
     type: Number, 
     required: true 
-},
+  },
 
   status: { 
-    type: String, 
-    default: 'available' 
-  }, // available/rented
+      type: String,
+      default: 'available' 
+  }, // available/booked
+
+  quantity:
+  {
+    type: Number, 
+    required: true
+  },
   
   bookings: [
     {

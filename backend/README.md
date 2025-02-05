@@ -6,7 +6,7 @@ This project is a backend for a hotel management system that allows users to boo
 ## Technologies Used
 - Node.js
 - Express
-- MongoDB
+- MongoDB (NOSQL)
 - Mongoose
 - JWT for authentication
 - bcrypt for password hashing

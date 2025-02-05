@@ -1,4 +1,4 @@
-const login = require('../models/usermodels');
+const login = require('../models/usermodels'); // Import the model
 const express = require('express');
 const router = express.Router();
 const dotenv = require('dotenv');
@@ -6,43 +6,45 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 async function signinUser(req, res) {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
-        return res.status(400).json({ message: 'All fields are required' });
+    if (!email || !password) {
+        return res.status(400).json({ message: "All fields are required" });
     }
-
+    
     try {
-        const user = await login.findOne({ username });
+        // Fetch user from database
+        const data = await login.findOne({ email: req.body.email });
 
-        if (!user) {
-            return res.status(400).json({ message: 'Invalid username' });
-        }
+        if (!data) return res.status(400).json({ message: "User not found" });
+    
+        // Direct password comparison (plaintext comparison)
+        if (password !== data.password) {
+            return res.status(400).json({ message: "Invalid credentials" });
+        }    
 
-        const pass = await login.findOne({ password });
+        // // Generate JWT Token
+        // const token = jwt.sign({ userId: user._id }, "SECRET_KEY");
 
-        if (!pass) {
-            return res.status(400).json({ message: 'Invalid password' });
-        }
+        // // Set cookie with JWT token (httpOnly & secure)
+        // res.cookie("token", token, {
+        //     httpOnly: true,
+        //     secure: false, // Set true in production (use HTTPS)
+        //     sameSite: "strict",
+        //     maxAge: 3600000, // 1 hour
+        // });
 
-        const email = await login.findOne({ email });
-
-        if (!email) {
-            return res.status(400).json({ message: 'Invalid email' });
-        }
-
+        // If login is successful
         res.status(200).json({
-            message: 'Login successful',
-            user: {
-                id: user._id,
-                username: user.username,
-                email: user.email,
-            },
+            message: "Login successful",
+            user: data, // Corrected variable name
         });
+        console.log("Login Successful!!")
+
     } catch (err) {
-        console.error('Error during sign-in:', err);
-        res.status(500).json({ message: 'Server error' });
+        console.error("Error during sign-in:", err);
+        res.status(500).json({ message: "Server error", error: err.message });
     }
 }
 
-module.exports = {signinUser};
+module.exports = { signinUser };

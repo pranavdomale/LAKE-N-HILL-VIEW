@@ -8,14 +8,12 @@ dotenv.config();
 async function createUser(req,res) {
     const { username, password, email } = req.body;
 
-    if (!username || !password) {
+    if (!username || !email || !password) {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
     try {
-        const user= await signup.create({ username:username, password: password,email:email }).catch((err)=>{
-            console.log("error in user model",err)
-        })
+        const user= await signup.create({ username:username, password: password, email:email })
         res.status(201).json({ message: 'User registered successfully',
             data:user
          });

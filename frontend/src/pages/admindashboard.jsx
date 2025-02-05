@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import {
   Users,
   Bike,
@@ -13,30 +14,26 @@ import {
 // CreditCard, Calendar, Settings, ChevronDown
 // Mock data for demonstration
 const roomsData = [
-  { id: 1, name: "Royal Suite", type: "Suite", capacity: 2, price: 450, status: "Available" },
-  { id: 2, name: "Ocean View Deluxe", type: "Deluxe", capacity: 2, price: 280, status: "Occupied" },
-  { id: 3, name: "Family Retreat", type: "Suite", capacity: 4, price: 550, status: "Maintenance" },
-  { id: 4, name: "Executive King", type: "Executive", capacity: 2, price: 380, status: "Available" },
-  { id: 5, name: "Penthouse Suite", type: "Suite", capacity: 4, price: 800, status: "Reserved" },
+  { id: 1, name: "Single Room", type: "Suite", capacity: 2, price: 450, status: "Available" },
+  { id: 2, name: "Deluxe Room", type: "Deluxe", capacity: 2, price: 280, status: "Available" },
+  { id: 3, name: "Super Deluxe Room", type: "Suite", capacity: 4, price: 550, status: "Available" },
+  { id: 4, name: "Luxury Room", type: "Executive", capacity: 2, price: 380, status: "Available" },
 ]
 
 const bikesData = [
-  { id: 1, model: "Mountain Explorer", type: "Mountain", available: 5, hourlyRate: 15, status: "Available" },
-  { id: 2, model: "City Cruiser", type: "City", available: 3, hourlyRate: 10, status: "In Use" },
-  { id: 3, model: "Electric Glide", type: "Electric", available: 2, hourlyRate: 20, status: "Maintenance" },
-  { id: 4, model: "Tandem Joy", type: "Tandem", available: 1, hourlyRate: 25, status: "Available" },
-  { id: 5, model: "Kids Adventure", type: "Kids", available: 4, hourlyRate: 8, status: "Available" },
+  { id: 1, model: "Activa 5G", type: "Mountain", available: 5, hourlyRate: 15, status: "Available" },
+  { id: 2, model: "Royal Enfeild Bullet", type: "City", available: 3, hourlyRate: 10, status: "Availablee" },
+  { id: 3, model: "Passion Pro", type: "Electric", available: 2, hourlyRate: 20, status: "Available" },
 ]
 
 const hallsData = [
   { id: 1, name: "Grand Ballroom", type: "Ballroom", capacity: 300, hourlyRate: 1000, status: "Available" },
-  { id: 2, name: "Panorama Conference", type: "Conference", capacity: 80, hourlyRate: 400, status: "Booked" },
-  { id: 3, name: "Sunset Wedding Pavilion", type: "Wedding", capacity: 150, hourlyRate: 800, status: "Setup" },
-  { id: 4, name: "Executive Boardroom", type: "Meeting", capacity: 20, hourlyRate: 200, status: "Available" },
+  { id: 3, name: "Sunset Wedding Pavilion", type: "Wedding", capacity: 150, hourlyRate: 800, status: "Available" },
   { id: 5, name: "Garden Reception", type: "Reception", capacity: 100, hourlyRate: 600, status: "Available" },
 ]
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("rooms")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -130,7 +127,7 @@ const AdminDashboard = () => {
           </ul>
         </nav>
         <div className="p-4">
-          <button className="flex items-center text-gray-400 hover:text-white transition-colors duration-200">
+          <button className="flex items-center text-gray-400 hover:text-white transition-colors duration-200" onClick={()=> navigate('/')}>
             <LogOut className="mr-3" size={20} />
             Logout
           </button>

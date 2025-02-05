@@ -7,6 +7,12 @@ const HallSchema = new mongoose.Schema({
     unique: true 
   },
   
+  hallType: { 
+    type: String, 
+    required: true, 
+    unique: true 
+  },
+  
   capacity: { 
     type: Number, 
     required: true 
@@ -16,17 +22,26 @@ const HallSchema = new mongoose.Schema({
     type: Number, 
     required: true 
   },
-  
+
   status: { 
-    type: String, 
-    default: 'available' 
+      type: String,
+      default: 'available' 
   }, // available/booked
+
+  quantity:
+  {
+    type: Number, 
+    required: true
+  },
   
   bookings: [
     {
       guestName: String,
+      phoneno: Number, 
+      address: String,
+      hallType: String,
       eventDate: Date,
-      numberOfGuests: Number,
+      Capacity: Number,
       paymentStatus: String,
     },
   ],
