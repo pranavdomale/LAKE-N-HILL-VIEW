@@ -2,10 +2,21 @@ const login = require('../models/usermodels'); // Import the model
 const express = require('express');
 const router = express.Router();
 const dotenv = require('dotenv');
+const jwt=require('jsonwebtoken')
 
 dotenv.config();
+const key="user_key"
+async function generateToken(id) {
+    const token=await jwt.sign({userId:id},
+        key
+    
+    )
+    return {token}
+    
+}
 
 async function signinUser(req, res) {
+    const key="SECRET_KEY"
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -23,19 +34,20 @@ async function signinUser(req, res) {
             return res.status(400).json({ message: "Invalid credentials" });
         }    
 
-        // // Generate JWT Token
-        // const token = jwt.sign({ userId: user._id }, "SECRET_KEY");
-
-        // // Set cookie with JWT token (httpOnly & secure)
-        // res.cookie("token", token, {
-        //     httpOnly: true,
-        //     secure: false, // Set true in production (use HTTPS)
-        //     sameSite: "strict",
-        //     maxAge: 3600000, // 1 hour
-        // });
-
+        // Generate JWT Token
+        
+        const {token}=await generateToken(data._id);
+        console.log("token",token)
         // If login is successful
-        res.status(200).json({
+        const options={
+            httpOnly:true,
+            secure:true,
+            sameSite:"None"
+        }
+        res.
+        status(200).
+        cookie("userToken",token,options)
+        .json({
             message: "Login successful",
             user: data, // Corrected variable name
         });

@@ -8,6 +8,9 @@ dotenv.config();
 // Create a new booking
 async function bookRoom(req, res) {
     const { name, phoneno, address, checkIn, checkOut, guestCount, Type } = req.body;
+    const token = req.cookies;
+    console.log("token in room",token)
+    console.log(Type)
 
     try {
         const room = await Room.findOne({ type: Type });
