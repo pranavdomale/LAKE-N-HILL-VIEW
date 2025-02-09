@@ -1,0 +1,50 @@
+[
+  {
+    "hallId": "H101",
+    "hallType": "Banquet Hall",
+    "capacity": 200,
+    "price": 5000,
+    "status": "available",
+    "dates": {
+      "2025-02-09": { "availableRooms": 2 },
+      "2025-02-10": { "availableRooms": 2 },
+      "2025-02-11": { "availableRooms": 2 },
+      "2025-02-12": { "availableRooms": 2 },
+      "2025-02-13": { "availableRooms": 2 },
+      "2025-02-14": { "availableRooms": 2 }
+    },
+    "bookings": []
+  },
+  {
+    "hallId": "H102",
+    "hallType": "Conference Hall",
+    "capacity": 100,
+    "price": 8000,
+    "status": "available",
+    "dates": {
+      "2025-02-09": { "availableRooms": 2 },
+      "2025-02-10": { "availableRooms": 2 },
+      "2025-02-11": { "availableRooms": 2 },
+      "2025-02-12": { "availableRooms": 2 },
+      "2025-02-13": { "availableRooms": 2 },
+      "2025-02-14": { "availableRooms": 2 }
+    },
+    "bookings": []
+  },
+  {
+    "hallId": "H103",
+    "hallType": "Wedding Hall",
+    "capacity": 500,
+    "price": 15000,
+    "status": "available",
+    "dates": {
+      "2025-02-09": { "availableRooms": 2 },
+      "2025-02-10": { "availableRooms": 2 },
+      "2025-02-11": { "availableRooms": 2 },
+      "2025-02-12": { "availableRooms": 2 },
+      "2025-02-13": { "availableRooms": 2 },
+      "2025-02-14": { "availableRooms": 2 }
+    },
+    "bookings": []
+  }
+]

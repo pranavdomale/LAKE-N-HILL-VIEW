@@ -23,22 +23,12 @@ async function signinUser(req, res) {
             return res.status(400).json({ message: "Invalid credentials" });
         }    
 
-        // // Generate JWT Token
-        // const token = jwt.sign({ userId: user._id }, "SECRET_KEY");
-
-        // // Set cookie with JWT token (httpOnly & secure)
-        // res.cookie("token", token, {
-        //     httpOnly: true,
-        //     secure: false, // Set true in production (use HTTPS)
-        //     sameSite: "strict",
-        //     maxAge: 3600000, // 1 hour
-        // });
-
         // If login is successful
         res.status(200).json({
             message: "Login successful",
             user: data, // Corrected variable name
         });
+        console.log("Login Credentials:",data);
         console.log("Login Successful!!")
 
     } catch (err) {

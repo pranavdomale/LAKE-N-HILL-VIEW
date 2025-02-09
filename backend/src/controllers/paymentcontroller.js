@@ -1,23 +1,22 @@
-const express = require("express");
 const Stripe = require("stripe");
+require("dotenv").config();
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY); // Initialize Stripe with your secret key
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 async function payment_method(req, res) {
+    console.log("Stripe Secret Key:", process.env.STRIPE_SECRET_KEY);
     const { amount, currency = "inr", paymentMethodId } = req.body;
 
     try {
-        // Convert amount to the smallest currency unit
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: amount * 100, // Convert to the smallest currency unit
+            amount: amount * 100,
             currency,
             payment_method: paymentMethodId,
-            confirm: true, // Confirm the payment
+            confirm: true,
         });
 
-        // Fetch the associated charge to get the receipt URL
-        const charges = await stripe.paymentIntents.retrieve(paymentIntent.id, {         
-            expand: ['charges'],
+        const charges = await stripe.paymentIntents.retrieve(paymentIntent.id, {
+            expand: ["charges"],
         });
 
         const receiptUrl = charges.charges.data.length > 0 ? charges.charges.data[0].receipt_url : null;
@@ -29,7 +28,7 @@ async function payment_method(req, res) {
         });
     } catch (error) {
         res.status(500).json({
-            message: 'Payment failed',
+            message: "Payment failed",
             error: error.message,
         });
     }

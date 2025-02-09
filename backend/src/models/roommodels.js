@@ -1,15 +1,30 @@
 const mongoose = require('mongoose');
 
+// Function to generate default availability for the next 30 days
+const generateAvailability = () => {
+  let dates = {};
+  let today = new Date();
+
+  for (let i = 0; i < 30; i++) {
+    let date = new Date(today);
+    date.setDate(today.getDate() + i);
+
+    let formattedDate = date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    dates[formattedDate] = { availableRooms: 3 };
+  }
+  return dates;
+};
+
 const RoomSchema = new mongoose.Schema({
   roomId: { 
-      type: String, 
-      required: true, 
-      unique: true 
+    type: String, 
+    required: true, 
+    unique: true 
   },
 
   type: { 
-      type: String, 
-      required: true 
+    type: String, 
+    required: true 
   }, 
 
   price: { 
@@ -18,16 +33,20 @@ const RoomSchema = new mongoose.Schema({
   },
 
   status: { 
-      type: String,
-      enum: ['available', 'booked'], 
-      default: 'available' 
-  }, // available/booked
+    type: String,
+    enum: ['available', 'booked'], 
+    default: 'available' 
+  }, 
 
-  quantity: {
-    type: Number, 
-    required: true
+  // Availability per date (auto-fills for the next 30 days)
+  dates: {
+    type: Map,
+    of: {
+      availableRooms: { type: Number, required: true }
+    },
+    default: generateAvailability
   },
-  
+
   bookings: [
     {
       name: { type: String, required: true },
@@ -36,7 +55,6 @@ const RoomSchema = new mongoose.Schema({
       checkIn: { type: Date, required: true },
       checkOut: { type: Date, required: true },
       guestCount: { type: Number, required: true }, 
-      Type: { type: String, required: true},
       paymentStatus: { 
         type: String, 
         enum: ['pending', 'paid', 'failed'], 
@@ -44,6 +62,6 @@ const RoomSchema = new mongoose.Schema({
       }, 
     }
   ],
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Room', RoomSchema);

@@ -8,23 +8,18 @@ dotenv.config();
 // Create a new booking
 async function bookHall(req, res) {
     console.log("Booking function");
-    const { hallType, guestName, eventDate, Capacity } = req.body;
+    const { hallType, guestName, phoneno, address, eventDate, Capacity } = req.body;
 
     try {
         const hall = await Hall.findOne({ hallType });
+        console.log("Booking function called");
 
         if (!hall || hall.status === 'unavailable') {
-            return res.status(404).json({ message: 'Hall not found' });
-        }
-
-        // Update the status to 'unavailable' if quantity is zero
-        if (hall.status === 'unavailable' || hall.quantity <= 0) {
-            return res.status(400).json({ message: 'Hall is unavailable for booking' });
+            return res.status(404).json({ message: 'Hall not found or unavailable' });
         }
 
         // Check if the requested date overlaps with any existing bookings
         const isBooked = hall.bookings.some(booking => {
-            // Compare only the date part, ignoring time
             return new Date(booking.eventDate).toDateString() === new Date(eventDate).toDateString();
         });
         
@@ -32,16 +27,20 @@ async function bookHall(req, res) {
             return res.status(400).json({ message: 'Hall is already booked for this date' });
         }
 
-        // Ensure there's enough Capacity left
-        if (hall.quantity < Capacity) {
-            return res.status(400).json({ message: `Only ${hall.quantity} slots available.` });
+        // Ensure there's enough capacity left
+        const availableRooms = hall.dates.get(eventDate)?.availableRooms || 0;
+        if (availableRooms < 1 || Capacity > hall.capacity) {
+            return res.status(400).json({ message: 'Insufficient capacity or hall unavailable for the selected date' });
         }
 
         // Add the booking
-        hall.bookings.push({ guestName, eventDate, Capacity, paymentStatus: 'pending' });
-        hall.quantity -= 1; // Decrement the available quantity
+        hall.bookings.push({ guestName, phoneno, address, hallType, eventDate, Capacity, paymentStatus: 'pending' });
 
-        if (hall.quantity === 0) {
+        // Decrease available rooms for the selected date
+        hall.dates.set(eventDate, { availableRooms: availableRooms - 1 });
+
+        // Update status if no rooms are left
+        if (availableRooms - 1 === 0) {
             hall.status = 'unavailable';
         }
 
@@ -54,41 +53,26 @@ async function bookHall(req, res) {
 
 // Check hall availability
 async function checkAvailability_hall(req, res) {
-    const { eventDate, hallType, Capacity } = req.body;
-  
+    const { eventDate, hallType } = req.body;
+
     try {
-      console.log("Chevk Availability is called")
-      const hall = await Hall.findOne({ hallType });
-      console.log("Hall find:",hall);
-  
-      if (!hall) {
-        return res.status(404).json({ message: 'Hall not found' });
-      }
+        console.log("Check Availability is called");
+        const hall = await Hall.findOne({ hallType });
 
-      // Check if hall has enough quantity available
-      if (hall.quantity <= 0) {
-        return res.status(400).json({ message: 'Hall is unavailable due to no available slots' });
-    }
-  
-      // Check for overlapping bookings
-      const isAvailable = hall.bookings.every(booking => {
-        // Compare only the date part, ignoring time
-        const isDateOverlap = new Date(booking.eventDate).toDateString() === new Date(eventDate).toDateString();
-        const isCapacitySufficient = booking.Capacity + Capacity <= hall.Capacity;
-        return !isDateOverlap || isCapacitySufficient; // No overlap or enough space
-    });
-      console.log("Is Available:",isAvailable)
-  
-      if (isAvailable && hall.status !== 'unavailable') {
-        return res.status(200).json({ message: 'Hall is available' });
-      } else {
-        return res.status(400).json({ message: 'Hall is not available' });
-      }
+        if (!hall) {
+            return res.status(404).json({ message: 'Hall not found' });
+        }
+
+        const availableRooms = hall.dates.get(eventDate)?.availableRooms || 0;
+        if (availableRooms > 0 && hall.status !== 'unavailable') {
+            return res.status(200).json({ message: 'Hall is available', availableRooms });
+        } else {
+            return res.status(400).json({ message: 'Hall is not available for the selected date' });
+        }
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
-  }
-
+}
 
 // Cancel a booking
 async function cancelBooking_hall(req, res) {
@@ -101,14 +85,18 @@ async function cancelBooking_hall(req, res) {
             return res.status(404).json({ message: 'Booking not found' });
         }
 
-        // Remove the booking from the hall
+        // Find and remove the booking
         const booking = hall.bookings.id(bookingId);
         if (booking) {
+            const { eventDate } = booking;
             booking.remove();
-            hall.quantity += 1; // Increment the available quantity
 
-            // Update the status to 'available' if there are remaining bookings
-            if (hall.quantity > 0) {
+            // Increment available rooms for the specific date
+            const availableRooms = hall.dates.get(eventDate)?.availableRooms || 0;
+            hall.dates.set(eventDate, { availableRooms: availableRooms + 1 });
+
+            // Update the status to 'available' if rooms are now available
+            if (hall.status === 'unavailable') {
                 hall.status = 'available';
             }
 
@@ -117,7 +105,6 @@ async function cancelBooking_hall(req, res) {
         } else {
             res.status(404).json({ message: 'Booking not found' });
         }
-
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

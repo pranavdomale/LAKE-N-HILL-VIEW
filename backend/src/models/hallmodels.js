@@ -1,5 +1,19 @@
 const mongoose = require('mongoose');
 
+const generateAvailability = () => {
+  let dates = {};
+  let today = new Date();
+
+  for (let i = 0; i < 30; i++) {
+    let date = new Date(today);
+    date.setDate(today.getDate() + i);
+
+    let formattedDate = date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    dates[formattedDate] = { availableRooms: 3 };
+  }
+  return dates;
+};
+
 const HallSchema = new mongoose.Schema({
   hallId: { 
     type: String, 
@@ -28,21 +42,27 @@ const HallSchema = new mongoose.Schema({
       default: 'available' 
   }, // available/booked
 
-  quantity:
-  {
-    type: Number, 
-    required: true
+  dates: {
+    type: Map,
+    of: {
+      availableRooms: { type: Number, required: true }
+    },
+    default: generateAvailability
   },
   
   bookings: [
     {
-      guestName: String,
-      phoneno: Number, 
-      address: String,
-      hallType: String,
-      eventDate: Date,
-      Capacity: Number,
-      paymentStatus: String,
+      guestName: { type: String, required: true },
+      phoneno: { type: Number, required: true }, 
+      address: { type: String, required: true },
+      hallType: { type: String, required: true },
+      eventDate: { type: Date, required: true },
+      Capacity: { type: Number, required: true },
+      paymentStatus:  { 
+        type: String, 
+        enum: ['pending', 'paid', 'failed'], 
+        default: 'pending' 
+      }, 
     },
   ],
 });
