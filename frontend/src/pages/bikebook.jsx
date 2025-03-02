@@ -7,17 +7,15 @@ import bikeImage2 from "../assets/paasion-pro.jpg";
 import bikeImage3 from "../assets/activa 5G.jpg";
 
 const bikeTypes = {
-    "Activa 5G": { price: 500, discount: 10},
-    "Royal Enfield Bullet": { price: 1000, discount: 10},
-    "Passion Pro": { price: 700, discount: 10 },
+    "Activa 5G": { price: 700, discount: 10},
+    "Royal Enfield Bullet": { price: 2000, discount: 10},
+    "Passion Pro": { price: 1200, discount: 10 },
   };
 
 const bike = {
   id: 1,
   name: "Bike Rental",
   description: "Rent a premium bike for your trip and experience the ultimate freedom on the open road. With top-of-the-line features and a smooth, powerful ride, these bikes offer comfort, style, and performance for an unforgettable journey. Whether you're exploring scenic routes or embarking on an adventure, renting a premium bike ensures you'll travel in both luxury and thrill.",
-  price: 500, // Adjust price per day
-  originalPrice: 700,
   capacity: 2,
   rating: 4,
   features: ["Helmet Included", "GPS Navigation", "Fuel Included", "24/7 Assistance"],
@@ -26,7 +24,7 @@ const bike = {
 
 const BikeBookPage = () => {
     const navigate = useNavigate();
-    const [name, setName] = useState('');
+    const [guestName, setguestName] = useState('');
     const [phoneno, setPhoneno] = useState('');
     const [returnDate, setreturnDate] = useState('');
     const [rentalDate, setrentalDate] = useState('');
@@ -52,7 +50,7 @@ const BikeBookPage = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
   
-      const bookingInfo = { name, phoneno, returnDate, rentalDate, model, address, guestCount };
+      const bookingInfo = { guestName, phoneno, returnDate, rentalDate, model, address, guestCount };
       const info = {returnDate, rentalDate, model};
       console.log("Booking info array:", bookingInfo);
   
@@ -73,7 +71,7 @@ const BikeBookPage = () => {
         });
         console.log("Availability:", availabilityResponse);
         
-        if (!availabilityResponse.data.success) {
+        if (availabilityResponse.data.success === 'Bike is not available') {
           alert("Bike is not available for the selected dates.");
           return;
         }
@@ -160,8 +158,8 @@ const BikeBookPage = () => {
                 <input
                   type="text"
                   id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={guestName}
+                  onChange={(e) => setguestName(e.target.value)}
                   className="w-full pl-4 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   required
                 />
@@ -249,8 +247,8 @@ const BikeBookPage = () => {
               </div>
   
               <div>
-    <label htmlFor="roomType" className="block text-gray-700 font-semibold mb-2">
-      Room Type
+    <label htmlFor="bikeType" className="block text-gray-700 font-semibold mb-2">
+      Bike Type
     </label>
     <div className="relative">
        <select
@@ -260,7 +258,7 @@ const BikeBookPage = () => {
         className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
         required
       >
-        <option value="">Select a room type</option>
+        <option value="">Select a bike type</option>
           {Object.keys(bikeTypes).map((model) => (
           <option key={model} value={model}>
           {model}
@@ -272,7 +270,7 @@ const BikeBookPage = () => {
 
   {model && (
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p classNae="text-lg font-semibold">
+                <p className="text-lg font-semibold">
                   Price: ₹{price} <span className="line-through text-gray-500 text-sm">₹{Math.round(price / (1 - discount / 100))}</span>
                 </p>
                 <p className="text-green-600">Discount: {discount}%</p>

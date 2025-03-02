@@ -4,6 +4,7 @@ import ImageCarousel from "../components/ImageCarousel/ImageCarousel";
 import Footer from "../components/Footer/Footer";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/Auth/AuthContext";
+import backgroundimg from "../assets/background.png";
 import luxuryRoom from "../assets/Luxury Room_page-0001.jpg";
 import lakesideView from "../assets/Udaipur_Fateh_Sagar_Main.jpg";
 
@@ -26,14 +27,13 @@ const Home = () => {
     <section
       className="relative bg-cover bg-center h-screen"
       style={{
-        backgroundImage:
-          "url('https://lh3.googleusercontent.com/p/AF1QipNQKR7SRzUMCKitg9UB3GTqQLv5hHCfk6yxsw2g=s1360-w1360-h1020')",
+        backgroundImage: `url(${backgroundimg})`,
       }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-70"></div>
 
       <div className="relative">
-        <Navbar />
+        <Navbar/>
       </div>
       <div className="relative z-10 flex flex-col items-center justify-center text-center text-white h-full px-4">
         <h1 className="text-5xl md:text-6xl font-bold font-poppins">

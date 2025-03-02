@@ -1,4 +1,6 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
+import Navbar from "../components/Navbar"
+import Footer from "../components/Footer/Footer"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Star, Users, Calendar, Maximize, BedDouble, ShowerHead, Wind, Utensils } from "lucide-react"
@@ -9,9 +11,9 @@ import luximage from "../assets/Luxury Room_page-0001.jpg";
 
 const roomTypes = {
   "Single Room": { price: 900, discount: 10},
-  "Deluxe Room": { price: 1073, discount: 10},
-  "Super Deluxe Room": { price: 1592, discount: 10 },
-  "Luxury Suite": { price: 2500, discount: 10 },
+  "Deluxe Room": { price: 2000, discount: 10},
+  "Super Deluxe Room": { price: 3000, discount: 10 },
+  "Luxury Suite": { price: 5000, discount: 10 },
 };
 
 const room = {
@@ -64,30 +66,25 @@ const BookPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     console.log("Submit Function");
-
-    const info = { checkIn, checkOut, Type };
-    const bookinfo = { name, phoneno, address, checkIn, checkOut, guestCount, Type };
-
-    //  Ensure `checkIn` and `checkOut` are valid date strings
-    console.log("Check-In Date:", checkIn);
-    console.log("Check-Out Date:", checkOut);
-
-    // Validate that the dates are in the future
-    const currentDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
-
-    if (checkIn < currentDate || checkOut <= checkIn) {
-        alert("Invalid date selection. Please select valid future dates.");
-        return;
-    }
 
     if (!Type) {
         alert("Please select a room type.");
         return;
     }
 
+    // Validate check-in and check-out dates
+    const currentDate = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+    if (checkIn < currentDate || checkOut <= checkIn) {
+        alert("Invalid date selection. Please select valid future dates.");
+        return;
+    }
+
+    const info = { checkIn, checkOut, Type };
+    const bookinfo = { name, phoneno, address, checkIn, checkOut, guestCount, Type };
+
     try {
-        //  Check availability
         console.log("Checking availability...");
         const availabilityResponse = await axios.post("http://localhost:5000/availability_room", info, {
             headers: { "Content-Type": "application/json" }
@@ -100,7 +97,6 @@ const BookPage = () => {
             return;
         }
 
-        //  Proceed to book the room
         console.log("Attempting to book room...");
         const bookingResponse = await axios.post("http://localhost:5000/book_room", bookinfo, {
             headers: { "Content-Type": "application/json" }
@@ -336,7 +332,7 @@ return (
 
   {Type && (
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p classNae="text-lg font-semibold">
+                <p className="text-lg font-semibold">
                   Price: ₹{price} <span className="line-through text-gray-500 text-sm">₹{Math.round(price / (1 - discount / 100))}</span>
                 </p>
                 <p className="text-green-600">Discount: {discount}%</p>

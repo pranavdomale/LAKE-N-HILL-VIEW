@@ -34,7 +34,7 @@
 //   const [error, setError] = useState("")
 //   const [success, setSuccess] = useState(false)
 
-//   const hotelPaymentInfo = "https://example.com/hotel-payment" // Replace with actual hotel payment link or info
+//   const hotelPaymentInfo = require("../assets/QRCode.jpg"); // Replace with actual hotel payment link or info
 
 //   const handleSubmit = (event) => {
 //     event.preventDefault()
@@ -116,14 +116,10 @@
 //   )
 // }
 
-// export default App
-import React, { useState } from "react";
-import { BanknotesIcon, CreditCardIcon } from "@heroicons/react/24/solid";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import axios from "axios";
+// export default App;
 
-const stripePromise = loadStripe("your-public-key-here"); // Replace with your actual public key
+import React, { useState } from "react"
+import { BanknotesIcon, QrCodeIcon } from "@heroicons/react/24/solid"
 
 const PaymentOption = ({ icon, title, description, selected, onClick }) => (
   <div
@@ -142,62 +138,46 @@ const PaymentOption = ({ icon, title, description, selected, onClick }) => (
       </div>
     </div>
   </div>
-);
+)
 
-const CheckoutForm = () => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+const QRCodeDisplay = ({ imageSrc }) => (
+  <div className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md">
+    <img src={imageSrc} alt="QR Code" className="w-52 h-52 rounded-lg shadow" />
+    <p className="mt-4 text-sm text-gray-600">Scan this QR code to pay</p>
+  </div>
+)
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (!stripe || !elements) return;
+const PaymentForm = () => {
+  const [paymentMethod, setPaymentMethod] = useState("")
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
 
-    setLoading(true);
-    setError("");
+  const qrCodeImagePath = require("../assets/QRCode.jpg"); // Make sure the image is inside the public/ folder
 
-    try {
-      const { data } = await axios.post("http://localhost:5000/create-payment-intent", {
-        amount: 1000, // Amount in cents
-      });
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    setError("")
 
-      const { clientSecret } = data;
-      const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: { card: elements.getElement(CardElement) },
-      });
-
-      if (confirmError) {
-        setError(confirmError.message);
-      } else if (paymentIntent.status === "succeeded") {
-        window.location.href = "/payment-success";
-      }
-    } catch (err) {
-      setError("Payment failed. Please try again later.");
+    if (!paymentMethod) {
+      setError("Please select a payment method")
+      return
     }
-    setLoading(false);
-  };
+
+    console.log("Payment submitted:", { paymentMethod })
+    setSuccess(true)
+  }
+
+  if (success) {
+    return (
+      <div className="text-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+        <h2 className="font-bold text-xl mb-2">Payment Successful!</h2>
+        <p>Thank you for your purchase. Your order has been processed.</p>
+      </div>
+    )
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <CardElement className="p-3 border rounded-lg" />
-      {error && <div className="text-red-600">{error}</div>}
-      <button
-        type="submit"
-        className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
-        disabled={loading}
-      >
-        {loading ? "Processing..." : "Pay"}
-      </button>
-    </form>
-  );
-};
-
-const PaymentForm = () => {
-  const [paymentMethod, setPaymentMethod] = useState("");
-
-  return (
-    <Elements stripe={stripePromise}>
       <div className="space-y-4">
         <PaymentOption
           icon={<BanknotesIcon className="h-6 w-6" />}
@@ -207,33 +187,48 @@ const PaymentForm = () => {
           onClick={() => setPaymentMethod("cash")}
         />
         <PaymentOption
-          icon={<CreditCardIcon className="h-6 w-6" />}
-          title="Card"
-          description="Pay securely using a credit or debit card"
-          selected={paymentMethod === "card"}
-          onClick={() => setPaymentMethod("card")}
+          icon={<QrCodeIcon className="h-6 w-6" />}
+          title="QR Code Payment"
+          description="Scan QR code to pay online"
+          selected={paymentMethod === "qr"}
+          onClick={() => setPaymentMethod("qr")}
         />
-        <PaymentOption
-          icon={<BanknotesIcon className="h-6 w-6" />}
-          title="UPI"
-          description="Pay using UPI apps like Google Pay, PhonePe, etc."
-          selected={paymentMethod === "upi"}
-          onClick={() => setPaymentMethod("upi")}
-        />
-        {(paymentMethod === "card" || paymentMethod === "upi") && <CheckoutForm />}
       </div>
-    </Elements>
-  );
-};
 
-const App = () => (
-  <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-    <div className="max-w-md w-full space-y-8 bg-white p-6 rounded-lg shadow-md">
-      <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Choose Payment Method</h2>
-      <p className="mt-2 text-center text-sm text-gray-600">Select your preferred payment option below</p>
-      <PaymentForm />
+      {paymentMethod === "qr" && (
+        <div className="mt-4">
+          <QRCodeDisplay imageSrc={qrCodeImagePath} />
+        </div>
+      )}
+
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
+
+      <button
+        type="submit"
+        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      >
+        Confirm Payment
+      </button>
+    </form>
+  )
+}
+
+const App = () => {
+  return (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-6 rounded-lg shadow-md">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Choose Payment Method</h2>
+          <p className="mt-2 text-center text-sm text-gray-600">Select your preferred payment option below</p>
+        </div>
+        <PaymentForm />
+      </div>
     </div>
-  </div>
-);
+  )
+}
 
 export default App;

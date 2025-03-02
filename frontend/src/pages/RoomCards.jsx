@@ -1,18 +1,5 @@
 import React,{ useState } from "react"
-import {
-  Wifi,
-  Coffee,
-  Users,
-  Utensils,
-  Bath,
-  Maximize,
-  Bike,
-  Clock,
-  MapPin,
-  Music,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react"
+import { Wifi, Coffee, Users, Utensils, Bath, Maximize, Bike, Clock, MapPin, Music, ChevronLeft, ChevronRight,} from "lucide-react"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer/Footer"
 import { useNavigate } from "react-router-dom"
@@ -48,8 +35,8 @@ const rooms = [
     id: 1,
     name: "Single Room",
     price: 900,
-    originalPrice: 1900,
-    discount: 53,
+    originalPrice: 1000,
+    discount: 10,
     amenities: ["Free WiFi", "Non-smoking", "Shower", "Book Now & Pay Later"],
     description: "Comfortable single room with essential amenities",
     capacity: 1,
@@ -59,9 +46,9 @@ const rooms = [
   {
     id: 2,
     name: "Deluxe Room",
-    price: 1073,
-    originalPrice: 1900,
-    discount: 44,
+    price: 2000,
+    originalPrice: 2222,
+    discount: 10,
     amenities: ["Free WiFi", "Breakfast Included", "Mini Bar", "TV"],
     description: "Spacious deluxe room with added comfort",
     capacity: 2,
@@ -71,9 +58,9 @@ const rooms = [
   {
     id: 3,
     name: "Super Deluxe Room",
-    price: 1592,
-    originalPrice: 1900,
-    discount: 17,
+    price: 3000,
+    originalPrice: 3333,
+    discount: 10,
     amenities: ["Free WiFi", "Breakfast & Lunch", "Mini Bar", "Balcony"],
     description: "Luxury room with premium amenities and meals included",
     capacity: 2,
@@ -83,9 +70,9 @@ const rooms = [
   {
     id: 4,
     name: "Luxury Suite",
-    price: 2500,
-    originalPrice: 3000,
-    discount: 15,
+    price: 5000,
+    originalPrice: 5556,
+    discount: 10,
     amenities: ["Free WiFi", "All Meals", "Jacuzzi", "City View"],
     description: "Premium suite with all luxury amenities",
     capacity: 3,
@@ -101,7 +88,7 @@ const bikes = [
     name: "Activa 5G",
     price: 50,
     originalPrice: 75,
-    discount: 33,
+    discount: 10,
     features: ["All-terrain", "21 Gears", "Front Suspension", "Helmet Included"],
     description: "Perfect for off-road adventures and trail riding",
     capacity: 1,
@@ -197,6 +184,7 @@ const ImageCarousel = ({ images }) => {
     </div>
   )
 }
+
 
 const CombinedListing = () => {
   const [listingType, setListingType] = useState("rooms")

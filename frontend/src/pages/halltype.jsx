@@ -37,54 +37,63 @@ const HallBookPage = () => {
     const [currentImage, setCurrentImage] = useState(0);
   
     const handleHallTypeChange = (e) => {
-        const selectedType = e.target.value;
-        sethallType(selectedType);
-        if (hallTypes[selectedType]) {
-            setPrice(hallTypes[selectedType].price);
-            setDiscount(hallTypes[selectedType].discount);
-        } else {
-          setPrice(0);
-          setDiscount(0);
-        }
-      };
-
+      const selectedType = e.target.value;
+      sethallType(selectedType);
+      if (hallTypes[selectedType]) {
+        setPrice(hallTypes[selectedType].price);
+        setDiscount(hallTypes[selectedType].discount);
+      } else {
+        setPrice(0);
+        setDiscount(0);
+      }
+    };
+    
     const handleSubmit = async (e) => {
       e.preventDefault();
-  
+    
       const bookingInfo = { guestName, phoneno, address, eventDate, hallType, Capacity: Number(Capacity) };
-      const info = {eventDate, Capacity, hallType};
+      const info = { eventDate, Capacity, hallType };
+    
       console.log("Booking info array:", bookingInfo);
-  
+    
       if (!hallType) {
         alert("Please select a hall type.");
         return;
       }
-  
+    
       try {
+        // Check availability
         const availabilityResponse = await axios.post("http://localhost:5000/availability_hall", info, {
-            headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json" },
         });
-        console.log("Availability:", availabilityResponse);
-        
-        if (!availabilityResponse.data.success) {
+    
+        console.log("Availability Response:", availabilityResponse);
+    
+        if (availabilityResponse.data.message !== "Hall is available") {
           alert("Hall is not available for the selected dates.");
           return;
-        }
-  
+        }        
+    
+        // Book hall
         const bookingResponse = await axios.post("http://localhost:5000/book_hall", bookingInfo, {
-            headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json" },
         });
+    
         console.log("Booking info:", bookingInfo);
         console.log("Booking Response:", bookingResponse);
-        
+    
         if (bookingResponse.status === 200) {
-          navigate('/payment');
+          navigate("/payment");
         }
       } catch (error) {
         console.error("Error Response:", error.response?.data || error.message);
-        alert("Error: " + (error.response?.data?.message || "Unknown error"));
-    }
+        alert(
+          "Error: " +
+            (error.response?.data?.message || "Unable to process your booking request. Please try again later.")
+        );
+      }
     };
+    
   
     return (
       <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
@@ -225,8 +234,8 @@ const HallBookPage = () => {
               </div>
   
               <div>
-    <label htmlFor="roomType" className="block text-gray-700 font-semibold mb-2">
-      Room Type
+    <label htmlFor="hallType" className="block text-gray-700 font-semibold mb-2">
+      Hall Type
     </label>
     <div className="relative">
        <select
