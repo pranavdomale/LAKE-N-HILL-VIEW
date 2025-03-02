@@ -5,6 +5,26 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+async function getHallDetails(req, res){
+    try {
+        const hallDetails = await Hall.find({}, 'hallType capacity price status');
+        console.log("Hall Details: ",hallDetails); // Fetch specific fields
+        res.status(200).json({ success: true, data: hallDetails });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+}
+
+async function bookingHalldetails(req, res){
+    try {
+        const booking = await Hall.find({}, 'bookings');
+        console.log("Hall Details: ",hallDetails); // Fetch specific fields
+        res.status(200).json({ success: true, data: hallDetails });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+}
+
 // Create a new booking
 async function bookHall(req, res) {
     console.log("Booking function");
@@ -110,4 +130,4 @@ async function cancelBooking_hall(req, res) {
     }
 }
 
-module.exports = { bookHall, checkAvailability_hall, cancelBooking_hall };
+module.exports = { getHallDetails, bookHall, checkAvailability_hall, cancelBooking_hall };
