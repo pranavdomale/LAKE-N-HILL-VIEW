@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
-import { Axios } from "axios"
+import { useEffect, useState } from "react";
+import { Axios } from "axios";
+import Navbar from "../components/Navbar";
 import { CalendarDays, MapPin, CheckCircle, Clock, CheckSquare } from "lucide-react"
 
 async function getUserBookings() {
@@ -33,8 +34,9 @@ export default function MyBookingsPage() {
   if (loading) return <p className="text-center text-lg">Loading bookings...</p>
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-6">My Bookings</h1>
+    <div className="pt-[75px] container mx-auto py-8 px-4">
+      <Navbar/>
+      <h1 className="pt-[75px] text-3xl font-bold mb-6">My Bookings</h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {bookings.map((booking) => (
           <div key={booking.id} className="bg-white shadow-md rounded-lg p-6">

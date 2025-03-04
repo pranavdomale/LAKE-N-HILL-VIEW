@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 import { Star , Calendar ,Maximize, Wind } from "lucide-react"; //,Calendar, Users
 import bikeImage1 from "../assets/royal-enfield-bullet-pictures-q3lm0w8x5hx4ri5f.jpg";
 import bikeImage2 from "../assets/paasion-pro.jpg";
@@ -91,7 +92,8 @@ const BikeBookPage = () => {
     };
   
     return (
-      <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
+      <div className="pt-[80px] flex flex-col lg:flex-row min-h-screen bg-gray-100">
+        <Navbar/>
         {/* Main Content */}
         <div className="lg:w-2/3 bg-white overflow-y-auto">
           {/* Image Carousel */}

@@ -21,7 +21,12 @@ const BikeSchema = new mongoose.Schema({
     unique: true 
   },
 
-  model: { 
+  type: {
+    type: String,
+    required: true
+  },
+
+  name: { 
     type: String, 
     required: true 
   },

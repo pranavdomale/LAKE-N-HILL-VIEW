@@ -21,6 +21,11 @@ const RoomSchema = new mongoose.Schema({
     required: true, 
     unique: true 
   },
+  
+  name: { 
+    type: String, 
+    required: true 
+  },
 
   type: { 
     type: String, 
@@ -30,6 +35,11 @@ const RoomSchema = new mongoose.Schema({
   price: { 
     type: Number, 
     required: true 
+  },
+
+  capacity:{
+    type: Number, 
+    required: true
   },
 
   status: { 

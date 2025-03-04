@@ -109,6 +109,16 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+async function bookingBikedetails(req, res){
+    try {
+        const booking = await Bike.find({}, 'model bookings');
+        console.log("Bike Booking Details: ",booking); // Fetch specific fields
+        res.status(200).json({ success: true, data: booking });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+}
+
 // Create a new booking
 async function bookBike(req, res) {
   const { model, guestName, rentalDate, returnDate } = req.body;
@@ -231,4 +241,4 @@ async function cancelBooking_bike(req, res) {
   }
 }
 
-module.exports = { bookBike, checkAvailability_bike, cancelBooking_bike };
+module.exports = { bookBike, bookingBikedetails ,checkAvailability_bike, cancelBooking_bike };

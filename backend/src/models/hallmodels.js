@@ -21,6 +21,11 @@ const HallSchema = new mongoose.Schema({
     unique: true 
   },
   
+  name: {
+    type: String,
+    required: true
+  },
+
   hallType: { 
     type: String, 
     required: true, 

@@ -3,6 +3,7 @@ import { Wifi, Coffee, Users, Utensils, Bath, Maximize, Bike, Clock, MapPin, Mus
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer/Footer"
 import { useNavigate } from "react-router-dom"
+import Axios from "axios";
 import "./styles.css"
 
 // Import all images
@@ -125,7 +126,8 @@ const bikes = [
 const halls = [
   {
     id: 1,
-    name: "Conference Hall",
+    name: "The Nexus Conference Room",
+    type: "Conference",
     price: 5000,
     originalPrice: 7500,
     discount: 33,
@@ -137,7 +139,8 @@ const halls = [
   },
   {
     id: 2,
-    name: "Banquet Hall",
+    name: "LuxeVista Banquets",
+    type: "Banquet",
     price: 8000,
     originalPrice: 10000,
     discount: 20,
@@ -149,7 +152,8 @@ const halls = [
   },
   {
     id: 3,
-    name: "Wedding Hall",
+    name: "The Royal Pavilion",
+    type: "Wedding",
     price: 15000,
     originalPrice: 20000,
     discount: 25,
@@ -190,20 +194,42 @@ const CombinedListing = () => {
   const [listingType, setListingType] = useState("rooms")
   const navigate = useNavigate();
 
-  const handleBookingClick = () => {
-    if (Users) {
-      if (listingType === "rooms") {
-        navigate("/room-booking")
-      } else if (listingType === "bikes") {
-        navigate("/bike-booking");
+  // const handleBookingClick = () => {
+  //   if (Users) {
+  //     if (listingType === "rooms") {
+  //       navigate("/room-booking")
+  //     } else if (listingType === "bikes") {
+  //       navigate("/bike-booking");
+  //     } else {
+  //       navigate("/hall-booking"); // Default navigate (or change to another path for other cases)
+  //     }
+  //   } else {
+  //     alert("Please log in to continue.");
+  //     navigate("/login");
+  //   }
+  // };
+
+  const handleBookingClick = async () => {
+    try {
+      const response = await Axios.get("http://localhost:5000/checkLogin", { withCredentials: true }); // Adjust endpoint to your API
+      console.log("Response : ", response.data);
+      if (response.data.isLoggedIn) {
+        if (listingType === "rooms") {
+          navigate("/room-booking");
+        } else if (listingType === "bikes") {
+          navigate("/bike-booking");
+        } else {
+          navigate("/hall-booking");
+        }
       } else {
-        navigate("/hall-booking"); // Default navigate (or change to another path for other cases)
+        alert("Please log in to continue.");
+        navigate("/login");
       }
-    } else {
-      alert("Please log in to continue.");
+    } catch (error) {
+      alert("Session check failed. Please log in.");
       navigate("/login");
     }
-  };
+  };  
 
   const getIcon = (item) => {
     if (listingType === "rooms") {

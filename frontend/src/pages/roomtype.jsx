@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar"
-import Footer from "../components/Footer/Footer"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Star, Users, Calendar, Maximize, BedDouble, ShowerHead, Wind, Utensils } from "lucide-react"
@@ -113,9 +112,11 @@ const BookPage = () => {
         alert("Error: " + (error.response?.data?.message || "Unknown error"));
     }
 };
-  
+
+
 return (
-  <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
+  <div className="pt-[80px] flex flex-col lg:flex-row min-h-screen bg-gray-100">
+    <Navbar/>
     {/* Main Content */}
     <div className="lg:w-2/3 bg-white overflow-y-auto">
       {/* Image Carousel */}
@@ -342,7 +343,7 @@ return (
   <button
     type="submit"
     className="w-full bg-pink-500 text-white font-bold py-2 rounded-lg hover:bg-pink-600 transition duration-300"
-    onClick={handleSubmit}>
+  >
     Confirm Booking
   </button>
 </form>

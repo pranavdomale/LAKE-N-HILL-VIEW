@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 import { Star , Calendar ,Maximize, Wind } from "lucide-react"; //,Calendar, Users
 import hallImage1 from "../assets/hall-01.jpg";
 import hallImage2 from "../assets/hall-02.jpg";
@@ -96,7 +97,8 @@ const HallBookPage = () => {
     
   
     return (
-      <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
+      <div className="pt-[80px] flex flex-col lg:flex-row min-h-screen bg-gray-100">
+        <Navbar/>
         {/* Main Content */}
         <div className="lg:w-2/3 bg-white overflow-y-auto">
           {/* Image Carousel */}
