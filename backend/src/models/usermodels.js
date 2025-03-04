@@ -18,6 +18,19 @@ const userSchema = new mongoose.Schema({
         required: true, 
         unique: true 
     },
+    room:
+       [ {type:mongoose.Schema.Types.ObjectId,
+        ref:'Room'}],
+        
+    
+    hall:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Hall',
+        
+    }],bike:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Bike',
+    }]
 });
 
 module.exports = mongoose.model('users ', userSchema);

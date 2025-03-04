@@ -44,7 +44,13 @@ async function bookHall(req, res) {
         if (hall.quantity === 0) {
             hall.status = 'unavailable';
         }
-
+         const userInfo=req.user;
+                    console.log("user",userInfo);
+            
+                    const userData=await user.findByIdAndUpdate(userInfo.userId,{$push:{hall:hall._id}}).catch((err)=>{
+                      console.log(err);
+                    });
+                    console.log("userData",userData);
         await hall.save();
         res.status(200).json({ message: 'Hall booked successfully', hall });
     } catch (error) {

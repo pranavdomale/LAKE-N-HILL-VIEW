@@ -29,7 +29,7 @@ const RoomSchema = new mongoose.Schema({
   },
   userId:{
     type:String,
-    required:true,
+    //required:true,
   },
   
   bookings: [
@@ -40,7 +40,7 @@ const RoomSchema = new mongoose.Schema({
       checkIn: { type: Date, required: true },
       checkOut: { type: Date, required: true },
       guestCount: { type: Number, required: true }, 
-      Type: { type: String, required: true},
+      Type: { type: String, required: false},
       paymentStatus: { 
         type: String, 
         enum: ['pending', 'paid', 'failed'], 

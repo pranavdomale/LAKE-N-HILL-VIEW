@@ -49,7 +49,7 @@ async function signinUser(req, res) {
         cookie("userToken",token,options)
         .json({
             message: "Login successful",
-            user: data, // Corrected variable name
+            user: data, 
         });
         console.log("Login Successful!!")
 

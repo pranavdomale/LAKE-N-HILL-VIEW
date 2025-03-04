@@ -1,5 +1,6 @@
 const Bike = require('../models/bikemodels');
 const express = require('express');
+const user=require('../models/usermodels');
 const router = express.Router();
 const dotenv = require('dotenv');
 
@@ -21,6 +22,7 @@ async function bookBike(req, res) {
       const isRentalOverlap = new Date(rentalDate) < new Date(booking.returnDate) && new Date(returnDate) > new Date(booking.rentalDate);
       return isRentalOverlap;
     });
+    console.log("Is Overlapping:",isOverlapping)
 
     if (isOverlapping) {
       return res.status(400).json({ message: 'Booking dates overlap with an existing booking' });
@@ -36,6 +38,13 @@ async function bookBike(req, res) {
     }
 
     await bike.save();
+    const userInfo=req.user;
+            console.log("user",userInfo);
+    
+            const userData=await user.findByIdAndUpdate(userInfo.userId,{$push:{bike:bike._id}}).catch((err)=>{
+              console.log(err);
+            });
+            console.log("userData",userData);
     res.status(200).json({ message: 'Bike booked successfully', bike });
   } catch (error) {
     res.status(500).json({ error: error.message });
