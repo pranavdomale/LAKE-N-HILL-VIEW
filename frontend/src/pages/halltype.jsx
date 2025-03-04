@@ -228,7 +228,7 @@ const HallBookPage = () => {
                   id="Capacity"
                   value={Capacity}
                   onChange={(e) => setCapacity(e.target.value)}
-                  min="1"
+                  min="100"
                   max={hall.Capacity}
                   className="w-full pl-4 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   required

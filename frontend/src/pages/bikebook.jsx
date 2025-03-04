@@ -29,7 +29,7 @@ const BikeBookPage = () => {
     const [phoneno, setPhoneno] = useState('');
     const [returnDate, setreturnDate] = useState('');
     const [rentalDate, setrentalDate] = useState('');
-    const [model, setmodel] = useState('');
+    const [name, setname] = useState('');
     const [price, setPrice] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [address, setAddress] = useState('');
@@ -38,7 +38,7 @@ const BikeBookPage = () => {
   
     const handleBikeTypeChange = (e) => {
         const selectedType = e.target.value;
-        setmodel(selectedType);
+        setname(selectedType);
         if (bikeTypes[selectedType]) {
             setPrice(bikeTypes[selectedType].price);
             setDiscount(bikeTypes[selectedType].discount);
@@ -51,8 +51,8 @@ const BikeBookPage = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
   
-      const bookingInfo = { guestName, phoneno, returnDate, rentalDate, model, address, guestCount };
-      const info = {returnDate, rentalDate, model};
+      const bookingInfo = { guestName, phoneno, returnDate, rentalDate, name, address, guestCount };
+      const info = {returnDate, rentalDate, name};
       console.log("Booking info array:", bookingInfo);
   
       // Fix Date comparison
@@ -61,7 +61,7 @@ const BikeBookPage = () => {
         return;
       }
   
-      if (!model) {
+      if (!setname) {
         alert("Please select a bike type.");
         return;
       }
@@ -254,23 +254,23 @@ const BikeBookPage = () => {
     </label>
     <div className="relative">
        <select
-        id="Model"
-        value={model}
+        id="Name"
+        value={name}
         onChange={handleBikeTypeChange}
         className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
         required
       >
         <option value="">Select a bike type</option>
-          {Object.keys(bikeTypes).map((model) => (
-          <option key={model} value={model}>
-          {model}
+          {Object.keys(bikeTypes).map((name) => (
+          <option key={name} value={name}>
+          {name}
           </option>
           ))}
       </select>
     </div>
   </div>
 
-  {model && (
+  {name && (
               <div className="bg-gray-50 p-4 rounded-lg">
                 <p className="text-lg font-semibold">
                   Price: ₹{price} <span className="line-through text-gray-500 text-sm">₹{Math.round(price / (1 - discount / 100))}</span>

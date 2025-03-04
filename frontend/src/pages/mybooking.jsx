@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Axios } from "axios";
+import  Axios  from "axios";
 import Navbar from "../components/Navbar";
 import { CalendarDays, MapPin, CheckCircle, Clock, CheckSquare } from "lucide-react"
 
@@ -10,6 +10,7 @@ async function getUserBookings() {
         "Content-Type": "application/json",
       }
     });
+    console.log("My booking response:",response)
 
     return response.data; // Axios automatically parses JSON
   } catch (error) {

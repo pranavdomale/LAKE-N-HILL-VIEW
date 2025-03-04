@@ -1,4 +1,5 @@
 import React, { useState } from "react";  
+import Navbar from "../Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import axios from "axios";
@@ -38,6 +39,7 @@ const Register = () => {
 
   return (
     <div className="flex bg-white shadow-md rounded-lg overflow-hidden w-full h-screen">
+    <Navbar/>
       {/* Left Side */}
       <div className="w-3/5 bg-cover bg-center" style={{ backgroundImage: `url(${registerimg})` }}>
         <div className="h-full flex justify-center items-center bg-opacity-50 bg-black">

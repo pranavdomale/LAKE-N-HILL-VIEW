@@ -40,12 +40,12 @@ const room = {
 
 const BookPage = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
+  const [gname, setgName] = useState('');
   const [phoneno, setPhoneno] = useState('');
   const [address, setAddress] = useState('');
   const [checkIn, setcheckIn] = useState("");
   const [checkOut, setcheckOut] = useState("");
-  const [Type, setType] = useState('');
+  const [name, setname] = useState('');
   const [price, setPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [guestCount, setguestCount] = useState(1);
@@ -53,7 +53,7 @@ const BookPage = () => {
 
   const handleRoomTypeChange = (e) => {
     const selectedType = e.target.value;
-    setType(selectedType);
+    setname(selectedType);
     if (roomTypes[selectedType]) {
       setPrice(roomTypes[selectedType].price);
       setDiscount(roomTypes[selectedType].discount);
@@ -68,7 +68,7 @@ const BookPage = () => {
 
     console.log("Submit Function");
 
-    if (!Type) {
+    if (!name) {
         alert("Please select a room type.");
         return;
     }
@@ -80,8 +80,8 @@ const BookPage = () => {
         return;
     }
 
-    const info = { checkIn, checkOut, Type };
-    const bookinfo = { name, phoneno, address, checkIn, checkOut, guestCount, Type };
+    const info = { checkIn, checkOut, name };
+    const bookinfo = { gname, phoneno, address, checkIn, checkOut, guestCount, name };
 
     try {
         console.log("Checking availability...");
@@ -216,9 +216,9 @@ return (
     </label>
     <input
       type="text"
-      id="name"
-      value={name}
-      onChange={(e) => setName(e.target.value)}
+      id="gname"
+      value={gname}
+      onChange={(e) => setgName(e.target.value)}
       className="w-full pl-4 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
       required
     />
@@ -315,23 +315,23 @@ return (
     </label>
     <div className="relative">
        <select
-        id="roomType"
-        value={Type}
+        id="name"
+        value={name}
         onChange={handleRoomTypeChange}
         className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
         required
       >
         <option value="">Select a room type</option>
-          {Object.keys(roomTypes).map((type) => (
-          <option key={type} value={type}>
-          {type}
+          {Object.keys(roomTypes).map((name) => (
+          <option key={name} value={name}>
+          {name}
           </option>
           ))}
       </select>
     </div>
   </div>
 
-  {Type && (
+  {name && (
               <div className="bg-gray-50 p-4 rounded-lg">
                 <p className="text-lg font-semibold">
                   Price: ₹{price} <span className="line-through text-gray-500 text-sm">₹{Math.round(price / (1 - discount / 100))}</span>
