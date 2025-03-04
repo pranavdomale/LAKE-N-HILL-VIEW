@@ -111,7 +111,7 @@ dotenv.config();
 
 async function bookingBikedetails(req, res){
     try {
-        const booking = await Bike.find({}, 'model bookings');
+        const booking = await Bike.find({}, 'name bookings');
         console.log("Bike Booking Details: ",booking); // Fetch specific fields
         res.status(200).json({ success: true, data: booking });
     } catch (error) {
@@ -121,10 +121,10 @@ async function bookingBikedetails(req, res){
 
 // Create a new booking
 async function bookBike(req, res) {
-  const { model, guestName, rentalDate, returnDate } = req.body;
+  const { name, guestName, rentalDate, returnDate } = req.body;
 
   try {
-    const bike = await Bike.findOne({ model });
+    const bike = await Bike.findOne({ name });
 
     if (!bike) {
       return res.status(404).json({ message: 'Bike not found' });
@@ -171,11 +171,11 @@ async function bookBike(req, res) {
 
 // Check bike availability
 async function checkAvailability_bike(req, res) {
-  const { rentalDate, returnDate, model } = req.body;
+  const { rentalDate, returnDate, name } = req.body;
 
   try {
     console.log("Check Availability is called");
-    const bike = await Bike.findOne({ model });
+    const bike = await Bike.findOne({ name });
 
     if (!bike) {
       return res.status(404).json({ message: 'Bike not found' });

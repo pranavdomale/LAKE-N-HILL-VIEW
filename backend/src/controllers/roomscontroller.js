@@ -8,7 +8,7 @@ dotenv.config();
 async function bookingRoomdetails(req, res){
     try {
         const booking = await Room.find({}, 'bookings');
-        console.log("Room Booking Details: ",booking); // Fetch specific fields
+        console.log("Room Booking Details: ", booking); // Fetch specific fields
         res.status(200).json({ success: true, data: booking });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
@@ -31,10 +31,11 @@ const generateAvailability = () => {
 };
 
 async function bookRoom(req, res) {
-    const { name, phoneno, address, checkIn, checkOut, guestCount, Type } = req.body;
+    const { gname, phoneno, address, checkIn, checkOut, guestCount, name } = req.body;
 
     try {
-        let room = await Room.findOne({ type: Type });
+        let room = await Room.findOne({ name: name });
+        console.log("Room details:",room);
 
         if (!room) {
             return res.status(404).json({ message: 'Room not found' });
@@ -79,7 +80,7 @@ async function bookRoom(req, res) {
 
         // Add booking
         room.bookings.push({
-            name,
+            name: gname,
             phoneno,
             address,
             checkIn: checkInDate,
@@ -104,10 +105,10 @@ async function bookRoom(req, res) {
 }
 
 async function checkAvailability(req, res) {
-    const { checkIn, checkOut, Type } = req.body;
+    const { checkIn, checkOut, name } = req.body;
 
     try {
-        let room = await Room.findOne({ type: Type });
+        let room = await Room.findOne({ name: name });
         const roomDates = room.dates instanceof Map ? Object.fromEntries(room.dates) : room.dates;
         console.log("All keys in roomDates:", Object.keys(roomDates));
 
@@ -201,21 +202,28 @@ async function cancelBooking(req, res) {
 
 // Fetch all bookings for a specific user
 async function getMyBookings(req, res) {
-    const { phoneno } = req.body;
+    const { name } = req.body;
 
     try {
-        const rooms = await Room.find({
-            bookings: { $elemMatch: { phoneno } }
-        }, { "bookings.$": 1, type: 1 });
+        const rooms = await Room.find(
+            { "bookings.name": name },
+            { "bookings.$": 1, type: 1, roomID: 1 });
 
         if (!rooms.length) {
             return res.status(404).json({ message: 'No bookings found for this user' });
         }
 
-        const userBookings = rooms.map(room => ({
-            roomType: room.type,
-            bookings: room.bookings
-        }));
+        const userBookings = rooms.map(room => {
+            const booking = room.bookings[0];
+            return {
+                roomID: room.roomId,
+                roomType: room.type,
+                checkIn: booking.checkIn,
+                checkOut: booking.checkOut,
+                guestCount: booking.guestCount,
+                paymentStatus: booking.paymentStatus
+            };
+        });
 
         return res.status(200).json({
             success: true,
