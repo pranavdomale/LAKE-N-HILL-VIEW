@@ -305,7 +305,7 @@ const Navbar = () => {
         {/* Sidebar Content */}
         <div className="p-8 text-white">
           {/* Navigation Links */}
-          <nav className="flex flex-col space-y-6 mb-12">
+          <nav className="flex flex-col space-y-6 mb-12 mt-10 ">
             {[
               { name: "Home", path: "/" },
               { name: "Service", path: "/service" },
@@ -313,7 +313,7 @@ const Navbar = () => {
               { name: "Contact", path: "/contact" },
               { name: "My Booking", path: "/my-booking" },
             ].map((item) => (
-              <Link
+              <Link 
                 key={item.name}
                 to={item.path}
                 onClick={toggleSidebar}

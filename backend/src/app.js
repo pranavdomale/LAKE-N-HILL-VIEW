@@ -85,12 +85,38 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(
-  cors({
-    origin: "http://localhost:3000", // Allow frontend requests
-    credentials: true, // Important if using cookies or sessions
-  })
-);
+
+const allowedOrigins = [
+ "http://localhost:3000",
+  "http://localhost:5001",
+
+];
+
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true); // Allow the request
+    } else {
+      console.log("Not allowed by CORS", origin);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+  app.use((req, res, next) => {
+    console.log("Cookies:", req.cookies);
+    next();
+  });
+  
+  app.use(cors(corsOptions));
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000", // Allow frontend requests
+//     credentials: true, // Important if using cookies or sessions
+//   })
+// );
 app.use(cookieParser());
 
 // Database Connection

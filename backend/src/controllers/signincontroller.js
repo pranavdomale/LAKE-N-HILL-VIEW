@@ -40,9 +40,10 @@ async function signinUser(req, res) {
         console.log("token",token)
         // If login is successful
         const options={
-            httpOnly:true,
+            httpOnly:false,
+            sameSite:'none',
             secure:true,
-            sameSite:"None"
+            
         }
         res.
         status(200).
