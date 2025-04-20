@@ -34,7 +34,7 @@ const HallSchema = new mongoose.Schema({
   
   capacity: { 
     type: Number, 
-    required: true 
+    
   },
   
   price: { 
@@ -57,17 +57,18 @@ const HallSchema = new mongoose.Schema({
   
   bookings: [
     {
-      guestName: { type: String, required: true },
+      name: { type: String, required: true },
       phoneno: { type: Number, required: true }, 
       address: { type: String, required: true },
       hallType: { type: String, required: true },
-      eventDate: { type: Date, required: true },
+      checkIn: { type: Date, required: true },
+      checkOut: { type: Date, required: true },
       Capacity: { type: Number, required: true },
       paymentStatus:  { 
         type: String, 
-        enum: ['pending', 'paid', 'failed'], 
-        default: 'pending' 
-      }, 
+        enum: ['cash', 'upi/netbanking', 'failed', 'pending'],
+        default: 'pending'
+      },
     },
   ],
 });

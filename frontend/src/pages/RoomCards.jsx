@@ -87,7 +87,7 @@ const bikes = [
   {
     id: 1,
     name: "Activa 5G",
-    price: 50,
+    price: 600,
     originalPrice: 75,
     discount: 10,
     features: ["All-terrain", "21 Gears", "Front Suspension", "Helmet Included"],
@@ -99,7 +99,7 @@ const bikes = [
   {
     id: 2,
     name: "Royal Enfeild Bullet",
-    price: 30,
+    price: 2000,
     originalPrice: 45,
     discount: 33,
     features: ["Comfortable Seat", "7 Gears", "Basket", "Lights Included"],
@@ -111,7 +111,7 @@ const bikes = [
   {
     id: 3,
     name: "Passion Pro",
-    price: 75,
+    price: 1100,
     originalPrice: 100,
     discount: 25,
     features: ["Electric Assist", "Range 50km", "Removable Battery", "LCD Display"],

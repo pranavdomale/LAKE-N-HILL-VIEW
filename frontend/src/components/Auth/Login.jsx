@@ -1,67 +1,121 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaEnvelope, FaLock } from "react-icons/fa";
-import Navbar from "../Navbar";
-import axios from "axios";
-import { useAuth } from "../Auth/AuthContext";
-import loginimg from "../../assets/login.jpg";
+// import React, { useState, useEffect } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import { FaEnvelope, FaLock } from "react-icons/fa";
+// import Navbar from "../Navbar";
+// import axios from "axios";
+// import { useAuth } from "../Auth/AuthContext";
+// import loginimg from "../../assets/login.jpg";
 
-const Login = () => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
-  const { setUser } = useAuth();
+// const Login = () => {
+//   const navigate = useNavigate();
+//   const [error, setError] = useState(null);
+//   const [success, setSuccess] = useState(null);
+//   const { setUser } = useAuth();
+//   const [userName, setUserName] = useState("");
+//   const [password, setPassword] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setSuccess(null);
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setError(null);
+//     setSuccess(null);
   
-    try {
-      const response = await axios.post( "http://localhost:5000/login", formData,
-        {withCredentials: true }
-      );
-      console.log("Login Response:", response);
+//     try {
+//       const response = await axios.post(
+//         "http://localhost:5000/login",
+//         {
+//           username: userName,  // ✅ Change "userName" to "username"
+//           password,
+//         },
+//         { withCredentials: true }
+//       );
   
-      // Ensure user data exists in the response
-      if (response.data && response.data.user) {
-        // Set user data in context
-        setUser(response.data.user);
+//       console.log("Login Response:", response);
   
-        setSuccess("Login successful!");
+//       if (response.data && response.data.user) {
+//         // Store user info in local storage
+//         localStorage.setItem("Username", response.data.user.username);  // Ensure key matches what you want to store
+//         localStorage.setItem("userID", response.data.userID); // Optional if returned
   
-        // Navigate based on credentials
-        if ( response.data.user.role ==="Admin") {
-          navigate("/admin");
+//         setUser(response.data.user);  // Update context
+//         setSuccess("Login successful!");
+  
+//         // Redirect based on role
+//         if (response.data.user.role === "Admin") {
+//           navigate("/admin");
+//         } else {
+//           navigate("/");
+//         }
+//       } else {
+//         throw new Error("Invalid response from server.");
+//       }
+//     } catch (err) {
+//       console.error("Error during login:", err);
+//       const errorMessage = err?.response?.data?.message || "Invalid username or password!";
+//       setError(errorMessage);
+//     }
+//   };
+  
+//   useEffect(() => {
+//     try{
+//       if (localStorage.getItem("token")) {
+//         navigate("/"); // Redirect if already logged in
+//       }
+//     } catch (err) {
+//       console.log('Not logged in:', err);
+//     }
+//   }, [navigate]);
+  
+//   return (
+  import React, { useState } from "react";
+  import { Link, useNavigate } from "react-router-dom";
+  import { FaEnvelope, FaLock } from "react-icons/fa";
+  import Navbar from "../Navbar";
+  import axios from "axios";
+  import { useAuth } from "../Auth/AuthContext";
+  import loginimg from "../../assets/login.jpg";
+  
+  const Login = () => {
+    const navigate = useNavigate();
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+    const { setUser, setCheckLogin } = useAuth();
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setError(null);
+      setSuccess(null);
+  
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/login",
+          { username: userName, password },
+          { withCredentials: true }
+        );
+  
+        if (response.data?.user) {
+          setUser(response.data.user);
+          setCheckLogin(true);
+          localStorage.setItem("Username", response.data.user.username);
+          localStorage.setItem("userID", response.data.userID);
+  
+          setSuccess("Login successful!");
+  
+          if (response.data.user.role === "Admin") {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
         } else {
-          navigate("/");
+          throw new Error("Invalid response from server.");
         }
-      } else {
-        throw new Error("Invalid response from server.");
+      } catch (err) {
+        setError(err?.response?.data?.message || "Invalid username or password!");
       }
-    } catch (err) {
-      console.error("Error during login:", err);
-      const errorMessage = err?.response?.data?.message || "Invalid email or password!";
-      setError(errorMessage);
-    }    
-  };  
-
-  useEffect(() => {
-    try{
-      if (localStorage.getItem("token")) {
-        navigate("/"); // Redirect if already logged in
-      }
-    } catch (err) {
-      console.log('Not logged in:', err);
-    }
-  }, [navigate]);
+    };
   
-  return (
+    return (
     <div className="flex bg-white shadow-md rounded-lg overflow-hidden max-w-full h-screen">
       <Navbar />
       <div className="w-3/5 bg-cover bg-center" style={{ backgroundImage: `url(${loginimg})` }}>
@@ -76,14 +130,14 @@ const Login = () => {
         <h2 className="text-2xl font-bold mb-4">Sign In</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">User Name</label>
             <div className="relative">
               <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email Address"
+                type="username"
+                name="username"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder="Username"
                 className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 required
               />
@@ -98,8 +152,8 @@ const Login = () => {
               <input
                 type="password"
                 name="password"
-                value={formData.password}
-                onChange={handleChange}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} 
                 placeholder="Password"
                 className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 required
@@ -114,9 +168,6 @@ const Login = () => {
               <input type="checkbox" className="mr-2" />
               <label className="text-sm">Remember me</label>
             </div>
-            <Link to="/forget-password" className="text-indigo-500 underline text-sm">
-              Forgot Password?
-            </Link>
           </div>
           <button type="submit" className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800">
             Sign In

@@ -5,14 +5,15 @@
     "price": 900,
     "status": "available",
     "dates": {
-      "2025-02-09": { "availableRooms": 3 },
-      "2025-02-10": { "availableRooms": 3 },
-      "2025-02-11": { "availableRooms": 3 },
-      "2025-02-12": { "availableRooms": 3 },
-      "2025-02-13": { "availableRooms": 3 },
-      "2025-02-14": { "availableRooms": 3 }
+      "2025-03-09": { "availableRooms": 3 },
+      "2025-03-10": { "availableRooms": 3 },
+      "2025-03-11": { "availableRooms": 3 },
+      "2025-03-12": { "availableRooms": 3 },
+      "2025-03-13": { "availableRooms": 3 },
+      "2025-03-14": { "availableRooms": 3 }
     },
-    "bookings": []
+    "bookings": [],
+    "name":"Single Room"
   },
   {
     "roomId": "ROOM002",
@@ -20,14 +21,15 @@
     "price": 2000,
     "status": "available",
     "dates": {
-      "2025-02-09": { "availableRooms": 3 },
-      "2025-02-10": { "availableRooms": 3 },
-      "2025-02-11": { "availableRooms": 3 },
-      "2025-02-12": { "availableRooms": 3 },
-      "2025-02-13": { "availableRooms": 3 },
-      "2025-02-14": { "availableRooms": 3 }
+      "2025-03-09": { "availableRooms": 3 },
+      "2025-03-10": { "availableRooms": 3 },
+      "2025-03-11": { "availableRooms": 3 },
+      "2025-03-12": { "availableRooms": 3 },
+      "2025-03-13": { "availableRooms": 3 },
+      "2025-03-14": { "availableRooms": 3 }
     },
-    "bookings": []
+    "bookings": [],
+    "name":"Deluxe Room"
   },
   {
     "roomId": "ROOM003",
@@ -35,14 +37,15 @@
     "price": 3000,
     "status": "available",
     "dates": {
-      "2025-02-09": { "availableRooms": 3 },
-      "2025-02-10": { "availableRooms": 3 },
-      "2025-02-11": { "availableRooms": 3 },
-      "2025-02-12": { "availableRooms": 3 },
-      "2025-02-13": { "availableRooms": 3 },
-      "2025-02-14": { "availableRooms": 3 }
+      "2025-03-09": { "availableRooms": 3 },
+      "2025-03-10": { "availableRooms": 3 },
+      "2025-03-11": { "availableRooms": 3 },
+      "2025-03-12": { "availableRooms": 3 },
+      "2025-03-13": { "availableRooms": 3 },
+      "2025-03-14": { "availableRooms": 3 }
     },
-    "bookings": []
+    "bookings": [],
+    "name":"Super Deluxe Room"
   },
   {
     "roomId": "ROOM004",
@@ -50,13 +53,14 @@
     "price": 5000,
     "status": "available",
     "dates": {
-      "2025-02-09": { "availableRooms": 3 },
-      "2025-02-10": { "availableRooms": 3 },
-      "2025-02-11": { "availableRooms": 3 },
-      "2025-02-12": { "availableRooms": 3 },
-      "2025-02-13": { "availableRooms": 3 },
-      "2025-02-14": { "availableRooms": 3 }
+      "2025-03-09": { "availableRooms": 3 },
+      "2025-03-10": { "availableRooms": 3 },
+      "2025-03-11": { "availableRooms": 3 },
+      "2025-03-12": { "availableRooms": 3 },
+      "2025-03-13": { "availableRooms": 3 },
+      "2025-03-14": { "availableRooms": 3 }
     },
-    "bookings": []
+    "bookings": [],
+    "name":"Luxury Room"
   }
 ]

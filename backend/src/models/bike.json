@@ -1,46 +1,49 @@
 [
   {
     "bikeId": "BK101",
-    "model": "Activa 5G",
+    "name": "Activa 5G",
+    "type":"Scooty",
     "price": 700,
     "status": "available",
     "dates": {
-      "2025-02-09": { "availableRooms": 3 },
-      "2025-02-10": { "availableRooms": 3 },
-      "2025-02-11": { "availableRooms": 3 },
-      "2025-02-12": { "availableRooms": 3 },
-      "2025-02-13": { "availableRooms": 3 },
-      "2025-02-14": { "availableRooms": 3 }
+      "2025-03-09": { "availableRooms": 3 },
+      "2025-03-10": { "availableRooms": 3 },
+      "2025-03-11": { "availableRooms": 3 },
+      "2025-03-12": { "availableRooms": 3 },
+      "2025-03-13": { "availableRooms": 3 },
+      "2025-03-14": { "availableRooms": 3 }
     },
     "bookings": []
   },
   {
     "bikeId": "BK102",
-    "model": "Royal Enfield Bullet",
+    "name": "Royal Enfield Bullet",
+    "type":"Bike",
     "price": 2000,
     "status": "available",
     "dates": {
-      "2025-02-09": { "availableRooms": 3 },
-      "2025-02-10": { "availableRooms": 3 },
-      "2025-02-11": { "availableRooms": 3 },
-      "2025-02-12": { "availableRooms": 3 },
-      "2025-02-13": { "availableRooms": 3 },
-      "2025-02-14": { "availableRooms": 3 }
+      "2025-03-09": { "availableRooms": 3 },
+      "2025-03-10": { "availableRooms": 3 },
+      "2025-03-11": { "availableRooms": 3 },
+      "2025-03-12": { "availableRooms": 3 },
+      "2025-03-13": { "availableRooms": 3 },
+      "2025-03-14": { "availableRooms": 3 }
     },
     "bookings": []
   },
   {
     "bikeId": "BK103",
-    "model": "Passion Pro",
+    "name": "Passion Pro",
+    "type":"Bike",
     "price": 1200,
     "status": "available",
     "dates": {
-      "2025-02-09": { "availableRooms": 3 },
-      "2025-02-10": { "availableRooms": 3 },
-      "2025-02-11": { "availableRooms": 3 },
-      "2025-02-12": { "availableRooms": 3 },
-      "2025-02-13": { "availableRooms": 3 },
-      "2025-02-14": { "availableRooms": 3 }
+      "2025-03-09": { "availableRooms": 3 },
+      "2025-03-10": { "availableRooms": 3 },
+      "2025-03-11": { "availableRooms": 3 },
+      "2025-03-12": { "availableRooms": 3 },
+      "2025-03-13": { "availableRooms": 3 },
+      "2025-03-14": { "availableRooms": 3 }
     },
     "bookings": []
   }

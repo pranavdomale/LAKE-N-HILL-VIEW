@@ -29,7 +29,8 @@ const HallBookPage = () => {
     const navigate = useNavigate();
     const [guestName, setguestName] = useState('');
     const [phoneno, setPhoneno] = useState('');
-    const [eventDate, seteventDate] = useState('');
+    const [checkIn, setcheckIn] = useState('');
+    const [checkOut, setcheckOut] = useState('');
     const [hallType, sethallType] = useState('');
     const [price, setPrice] = useState(0);
     const [discount, setDiscount] = useState(0);
@@ -52,8 +53,8 @@ const HallBookPage = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
     
-      const bookingInfo = { guestName, phoneno, address, eventDate, hallType, Capacity: Number(Capacity) };
-      const info = { eventDate, Capacity, hallType };
+      const bookingInfo = { name: guestName, phoneno, address, checkIn, checkOut, hallType, Capacity: Number(Capacity) };
+      const info = { checkIn, Capacity, hallType };
     
       console.log("Booking info array:", bookingInfo);
     
@@ -77,8 +78,8 @@ const HallBookPage = () => {
     
         // Book hall
         const bookingResponse = await axios.post("http://localhost:5000/book_hall", bookingInfo, {
-          headers: { "Content-Type": "application/json" },
-        });
+            withCredentials: true
+          });
     
         console.log("Booking info:", bookingInfo);
         console.log("Booking Response:", bookingResponse);
@@ -209,15 +210,32 @@ const HallBookPage = () => {
                 <Calendar className="w-5 h-5 text-gray-500 absolute left-3 top-3" />
                 <input
                   type="date"
-                  id="eventDate"
-                  value={eventDate}
-                  onChange={(e) => seteventDate(e.target.value)}
+                  id="checkIn"
+                  value={checkIn}
+                  onChange={(e) => setcheckIn(e.target.value)}
                   min={new Date().toISOString().split("T")[0]} // Prevent past dates
                   className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   required
                 />
               </div>
-                
+              </div>
+
+              <div>
+              <label htmlFor="returnDate" className="block text-gray-700 font-semibold mb-2">
+                  Return Date
+                </label>
+                <div className="relative">
+                <Calendar className="w-5 h-5 text-gray-500 absolute left-3 top-3" />
+                <input
+                  type="date"
+                  id="checkOut"
+                  value={checkOut}
+                  onChange={(e) => setcheckOut(e.target.value)}
+                  min={new Date().toISOString().split("T")[0]} // Prevent past dates
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  required
+                />
+              </div>
   
               <div>
                 <label htmlFor="guestCount" className="block text-gray-700 font-semibold mb-2">

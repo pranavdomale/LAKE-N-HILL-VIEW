@@ -1,26 +1,37 @@
 import { useEffect, useState } from "react";
-import  Axios  from "axios";
+import Axios from "axios";
 import Navbar from "../components/Navbar";
-import { CalendarDays, MapPin, CheckCircle, Clock, CheckSquare } from "lucide-react"
+import { CalendarDays, MapPin, CheckCircle, Clock, CheckSquare } from "lucide-react";
 
 async function getUserBookings() {
   try {
-    const response = await Axios.get("http://localhost:5000/bookings", { 
-      headers: {
-        "Content-Type": "application/json",
-      }
-    });
-    console.log("My booking response:",response)
+    const name = localStorage.getItem('Username');
+    console.log("Username:", name);
 
-    return response.data; // Axios automatically parses JSON
+    const response_bike = await Axios.get(`http://localhost:5000/bookingsbike?name=${name}`, { withCredentials: true });
+    const response_hall = await Axios.get(`http://localhost:5000/bookingshall?name=${name}`, { withCredentials: true });
+    const response_room = await Axios.get(`http://localhost:5000/bookingsroom?name=${name}`, { withCredentials: true });
+
+    console.log("Booking Room:", response_room.data);
+    console.log("Booking Bike:", response_bike.data);
+    console.log("Booking Hall:", response_hall.data);
+
+    const allBookings = [
+      ...response_room.data.data.map(b => ({ ...b, type: 'room' })),
+      ...response_bike.data.data.map(b => ({ ...b, type: 'bike' })),
+      ...response_hall.data.data.map(b => ({ ...b, type: 'hall' }))
+    ];
+    console.log("All Bookings:", allBookings);
+
+    return allBookings;
   } catch (error) {
     console.error("Error fetching bookings:", error);
-    return []; // Return an empty array to prevent crashes
+    return [];
   }
 }
 
 export default function MyBookingsPage() {
-  const [bookings, setBookings] = useState([]);
+  const [Bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,143 +41,92 @@ export default function MyBookingsPage() {
       setLoading(false);
     }
     fetchBookings();
-  }, [])
+  }, []);
 
-  if (loading) return <p className="text-center text-lg">Loading bookings...</p>
+  const handleCancel = async (id, type) => {
+    try {
+      if (!id || !type) {
+        console.error("Invalid bookingId or type:", id, type);
+        return;
+      }
+      
+      console.log("Type:",type," ID:",id);
+
+      const url = `http://localhost:5000/cancel/${type}/${id}`;
+      console.log("Cancelling with URL:", url);
+      await Axios.delete(url, { withCredentials: true });  // Optional if your backend uses cookies
+      
+      // Remove cancelled booking from the list
+      setBookings(Bookings.filter(booking => booking._id !== id));
+  
+    } catch (error) {
+      console.error("Error cancelling booking:", error);
+    }
+  };  
+
+  if (loading) return <p className="text-center text-lg">Loading bookings...</p>;
 
   return (
     <div className="pt-[75px] container mx-auto py-8 px-4">
-      <Navbar/>
+      <Navbar />
       <h1 className="pt-[75px] text-3xl font-bold mb-6">My Bookings</h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {bookings.map((booking) => (
-          <div key={booking.id} className="bg-white shadow-md rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-2">{booking.propertyName}</h2>
-            <div className="flex items-center gap-2 text-gray-600 mb-4">
-              <MapPin className="h-4 w-4" />
-              <span className="text-sm">{booking.location}</span>
-            </div>
-            <div className="flex items-center gap-2 text-gray-600 mb-4">
+        {Bookings.map((booking, index) => (
+          <div key={booking._id || index} className="bg-white shadow-md rounded-lg p-6">
+            <h2 className="text-xl font-semibold mb-2">{booking.name || 'Booking Details'}</h2>
+            <div className="flex items-center gap-2 text-gray-600 mb-2">
+            {(booking.type === 'room' || booking.type === 'hall') && (
+              <span className="text-sm flex items-center gap-1">
+                <MapPin className="h-4 w-4" />
+                {booking._doc.address}
+              </span>
+            )}
+          </div>
+
+            <p className="text-sm text-gray-600 font-medium capitalize mb-2">
+              Booking Type: <span className="font-semibold">{booking.propertyName}</span>
+            </p>
+          
+            <div className="flex items-center gap-2 text-gray-600 mb-2">
               <CalendarDays className="h-5 w-5" />
               <span className="text-sm">
-                {new Date(booking.checkIn).toLocaleDateString()} - {new Date(booking.checkOut).toLocaleDateString()}
+                {booking._doc.checkIn ? new Date(booking._doc.checkIn).toLocaleDateString() : ''} -
+                {booking._doc.checkOut ? new Date(booking._doc.checkOut).toLocaleDateString() : ''}
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              {booking.status === "confirmed" && <CheckCircle className="h-5 w-5 text-green-500" />}
-              {booking.status === "pending" && <Clock className="h-5 w-5 text-yellow-500" />}
-              {booking.status === "completed" && <CheckSquare className="h-5 w-5 text-blue-500" />}
-              <span
-                className={`text-sm font-medium capitalize
-                ${booking.status === "confirmed" ? "text-green-500" : ""}
-                ${booking.status === "pending" ? "text-yellow-500" : ""}
-                ${booking.status === "completed" ? "text-blue-500" : ""}
-              `}
-              >
-                {booking.status}
+            <div className="flex items-center gap-2 mb-2">
+              {booking.paymentStatus === "confirmed" && <CheckCircle className="h-5 w-5 text-green-500" />}
+              {booking.paymentStatus === "pending" && <Clock className="h-5 w-5 text-yellow-500" />}
+              {booking.paymentStatus === "completed" && <CheckSquare className="h-5 w-5 text-blue-500" />}
+              <span className={`text-sm font-medium capitalize ${
+                booking.paymentStatus === "confirmed" ? "text-green-500" :
+                booking.paymentStatus === "pending" ? "text-yellow-500" :
+                booking.paymentStatus === "completed" ? "text-blue-500" : ""
+              }`}>
+                {booking.paymentStatus}
               </span>
             </div>
+            <p className="text-sm text-gray-600 font-medium">
+              Price: ₹{booking?.$__parent?.price}
+            </p>
+            {(booking.type === 'room' || booking.type === 'hall') && (
+            <p className="text-sm text-gray-600 font-medium">
+              {booking.type === 'room' ? 'Guests' : 'Capacity'} : {booking._doc.guestCount} {booking._doc.Capacity}
+            </p>
+            )}
+            {booking.type === 'bike' && (
+              <p className="text-sm text-gray-600 font-medium">
+                Rental vehicle: {booking.propertyName}
+              </p>
+            )}
+            <button 
+              onClick={() => handleCancel(booking._doc?._id)}
+              className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg flex items-center gap-2 hover:bg-red-600">
+              Cancel Booking
+            </button>
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
-
-// import { useEffect, useState } from "react";
-// import axios from "axios";
-// import { CalendarDays, MapPin, CheckCircle, Clock, CheckSquare, User } from "lucide-react";
-
-// async function getUserBookings() {
-//   try {
-//     const response = await axios.get("http://localhost:5000/bookings", {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching bookings:", error);
-//     return [];
-//   }
-// }
-
-// async function getUserInfo() {
-//   try {
-//     const response = await axios.get("http://localhost:5000/checkLogin", {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching user info:", error);
-//     return null;
-//   }
-// }
-
-// export default function MyBookingsPage() {
-//   const [bookings, setBookings] = useState([]);
-//   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     async function fetchData() {
-//       const [bookingsData, userData] = await Promise.all([getUserBookings(), getUserInfo()]);
-//       setBookings(bookingsData);
-//       setUser(userData);
-//       setLoading(false);
-//     }
-
-//     fetchData();
-//   }, []);
-
-//   if (loading) return <p className="text-center text-lg">Loading data...</p>;
-
-//   return (
-//     <div className="container mx-auto py-8 px-4">
-//       {user && (
-//         <div className="bg-gray-100 p-4 rounded-lg mb-6 flex items-center gap-4">
-//           <User className="h-10 w-10 text-gray-600" />
-//           <div>
-//             <p className="text-lg font-bold">{user.name}</p>
-//             <p className="text-gray-600">{user.email}</p>
-//           </div>
-//         </div>
-//       )}
-
-//       <h1 className="text-3xl font-bold mb-6">My Bookings</h1>
-//       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-//         {bookings.map((booking) => (
-//           <div key={booking.id} className="bg-white shadow-md rounded-lg p-6">
-//             <h2 className="text-xl font-semibold mb-2">{booking.propertyName}</h2>
-//             <div className="flex items-center gap-2 text-gray-600 mb-4">
-//               <MapPin className="h-4 w-4" />
-//               <span className="text-sm">{booking.location}</span>
-//             </div>
-//             <div className="flex items-center gap-2 text-gray-600 mb-4">
-//               <CalendarDays className="h-5 w-5" />
-//               <span className="text-sm">
-//                 {new Date(booking.checkIn).toLocaleDateString()} - {new Date(booking.checkOut).toLocaleDateString()}
-//               </span>
-//             </div>
-//             <div className="flex items-center gap-2">
-//               {booking.status === "confirmed" && <CheckCircle className="h-5 w-5 text-green-500" />}
-//               {booking.status === "pending" && <Clock className="h-5 w-5 text-yellow-500" />}
-//               {booking.status === "completed" && <CheckSquare className="h-5 w-5 text-blue-500" />}
-//               <span
-//                 className={`text-sm font-medium capitalize ${
-//                   booking.status === "confirmed" ? "text-green-500" : ""
-//                 } ${booking.status === "pending" ? "text-yellow-500" : ""} ${
-//                   booking.status === "completed" ? "text-blue-500" : ""
-//                 }`}
-//               >
-//                 {booking.status}
-//               </span>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }

@@ -67,8 +67,8 @@ const RoomSchema = new mongoose.Schema({
       guestCount: { type: Number, required: true }, 
       paymentStatus: { 
         type: String, 
-        enum: ['pending', 'paid', 'failed'], 
-        default: 'pending' 
+        enum: ['cash', 'upi/netbanking', 'failed', 'pending'],
+        default: 'pending'
       }, 
     }
   ],

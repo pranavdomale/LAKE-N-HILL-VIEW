@@ -25,15 +25,14 @@ const bike = {
 
 const BikeBookPage = () => {
     const navigate = useNavigate();
-    const [guestName, setguestName] = useState('');
+    const [Name, setName] = useState('');
     const [phoneno, setPhoneno] = useState('');
-    const [returnDate, setreturnDate] = useState('');
-    const [rentalDate, setrentalDate] = useState('');
+    const [checkIn, setcheckIn] = useState('');
+    const [checkOut, setcheckOut] = useState('');
     const [name, setname] = useState('');
     const [price, setPrice] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [address, setAddress] = useState('');
-    const [guestCount, setGuestCount] = useState(1);
     const [currentImage, setCurrentImage] = useState(0);
   
     const handleBikeTypeChange = (e) => {
@@ -51,15 +50,15 @@ const BikeBookPage = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
   
-      const bookingInfo = { guestName, phoneno, returnDate, rentalDate, name, address, guestCount };
-      const info = {returnDate, rentalDate, name};
+      const bookingInfo = { Name, phoneno, checkIn, checkOut, name };
+      const info = {checkIn, checkOut, name};
       console.log("Booking info array:", bookingInfo);
   
       // Fix Date comparison
-      if (new Date(returnDate) >= new Date(rentalDate)) {
+      if (new Date(checkOut) <= new Date(checkIn)) {
         alert("Invalid date selection. Check-out must be after check-in.");
         return;
-      }
+    }    
   
       if (!setname) {
         alert("Please select a bike type.");
@@ -154,14 +153,14 @@ const BikeBookPage = () => {
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">Book Your Bike</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
+                <label htmlFor="Name" className="block text-gray-700 font-semibold mb-2">
                   Name
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  value={guestName}
-                  onChange={(e) => setguestName(e.target.value)}
+                  id="Name"
+                  value={Name}
+                  onChange={(e) => setName(e.target.value)}
                   className="w-full pl-4 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   required
                 />
@@ -197,16 +196,16 @@ const BikeBookPage = () => {
               </div>
   
               <div>
-              <label htmlFor="returnDate" className="block text-gray-700 font-semibold mb-2">
+              <label htmlFor="checkIn" className="block text-gray-700 font-semibold mb-2">
                   Rental Date
                 </label>
                 <div className="relative">
                 <Calendar className="w-5 h-5 text-gray-500 absolute left-3 top-3" />
                 <input
                   type="date"
-                  id="returnDate"
-                  value={returnDate}
-                  onChange={(e) => setreturnDate(e.target.value)}
+                  id="checkIn"
+                  value={checkIn}
+                  onChange={(e) => setcheckIn(e.target.value)}
                   min={new Date().toISOString().split("T")[0]} // Prevent past dates
                   className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   required
@@ -216,34 +215,18 @@ const BikeBookPage = () => {
               </div>
   
               <div>
-                <label htmlFor="rentalDate" className="block text-gray-700 font-semibold mb-2">
+                <label htmlFor="checkOut" className="block text-gray-700 font-semibold mb-2">
                 Return Date
                 </label>
                 <div className="relative">
                 <Calendar className="w-5 h-5 text-gray-500 absolute left-3 top-3"/>
                 <input
                   type="date"
-                  id="rentalDate"
-                  value={rentalDate}
-                  onChange={(e) => setrentalDate(e.target.value)}
+                  id="checkOut"
+                  value={checkOut}
+                  onChange={(e) => setcheckOut(e.target.value)}
                   min={new Date().toISOString().split("T")[0]} // Prevent past dates
                   className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  required
-                />
-              </div>
-  
-              <div>
-                <label htmlFor="guestCount" className="block text-gray-700 font-semibold mb-2">
-                  Number of Guests
-                </label>
-                <input
-                  type="number"
-                  id="guestCount"
-                  value={guestCount}
-                  onChange={(e) => setGuestCount(e.target.value)}
-                  min="1"
-                  max={bike.capacity}
-                  className="w-full pl-4 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   required
                 />
               </div>

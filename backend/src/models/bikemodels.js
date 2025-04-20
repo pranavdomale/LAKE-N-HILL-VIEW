@@ -51,14 +51,14 @@ const BikeSchema = new mongoose.Schema({
   
   bookings: [
     {
-      guestName: { type: String, required: true },
-      rentalDate: { type: Date, required: true },
-      returnDate: { type: Date, required: true },
+      Name: { type: String, required: true },
+      checkIn: { type: Date, required: true },
+      checkOut: { type: Date, required: true },
       paymentStatus: { 
         type: String, 
-        enum: ['pending', 'paid', 'failed'], 
-        default: 'pending' 
-      }, 
+        enum: ['cash', 'upi/netbanking', 'failed', 'pending'],
+        default: 'pending'
+      },
     },
   ],
 });
